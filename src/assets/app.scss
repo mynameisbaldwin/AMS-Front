@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/bootstrap";
+
+.nav-item {
+  border-right: 1px dotted grey;
+}
+
+#nav-toggle {
+  margin-left: 2px;
+}
+
+#last-nav {
+  border-right: 0;
+}
+
+#btn-new-session {
+  background-color: inherit;
+  color: white;
+  border-color: white;
+  border-radius: 30px;
+}
+
+#btn-new-session:hover {
+  color: black;
+  background-color: white;
+}
