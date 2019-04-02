@@ -1,117 +1,117 @@
 .navbar {
-	padding-right: 15px;
+  padding-right: 15px;
 }
 
 .navbar .btn {
-	display: block
+  display: block;
 }
 
 .nav-item {
-	border-right: 1px dotted grey;
+  border-right: 1px dotted grey;
 }
 
 #lastNav {
-	margin-right: 15px; 
+  border-right: 0;
+  margin-right: 15px;
 }
 
 #newSeshBtn {
-	background-color: inherit;
-	color: white;
-	border-color: white;
-	border-radius: 20px;
+  background-color: inherit;
+  color: white;
+  border-color: white;
+  border-radius: 20px;
 }
 
 #newSeshBtn:hover {
-	color: black;
-	background-color: white;
+  color: black;
+  background-color: white;
 }
 
 .jumbotron .container {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 #today-sessions {
-	list-style: none;
-	padding-left: 15px;
+  list-style: none;
+  padding-left: 15px;
 }
 
 .session-badge {
-	text-decoration: none;
-	padding: 15px;
-	color: #138496;
-	font-weight: bold;
-	font-size: 1.25em;
-	background-color: #f2f2f2;
-	margin-bottom: 15px;
-	width: 65%;
-	border: 2px solid #d6d9db;
-	border-radius: 5px;
+  text-decoration: none;
+  padding: 15px;
+  color: #138496;
+  font-weight: bold;
+  font-size: 1.25em;
+  background-color: #f2f2f2;
+  margin-bottom: 15px;
+  width: 65%;
+  border: 2px solid #d6d9db;
+  border-radius: 5px;
 }
 
 .session-badge:hover {
-	background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 .student-checks {
-	font-style: oblique;
-	font-weight: normal;
+  font-style: oblique;
+  font-weight: normal;
 }
 
 #login {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 400px;	
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 400px;
 }
 
 #login-image {
-	margin-left: auto;
-	margin-right:auto;
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 320px;
-	height: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 320px;
+  height: 320px;
 }
 
 #login-head {
-	padding-left: 40px;
-	padding-right: 40px
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 #login-fields {
-	list-style: none;
-	margin-left: 0;
-	padding-left: 0;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .login-field {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .login-field input {
-	padding: 12px 20px;
-	width: 100%;
-	font-size: 1.5em;
+  padding: 12px 20px;
+  width: 100%;
+  font-size: 1.5em;
 }
 
 #login-button {
-	font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 .table-generic {
-	font-size: 1.25em;
+  font-size: 1.25em;
 }
 
-
 .table-generic td {
-	padding-top: 10px;
-	padding-bottom: 10px;
-	width: 200px;
-	border-bottom: 1px dotted grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 200px;
+  border-bottom: 1px dotted grey;
 }
 
 .table-generic .table-button {
-	padding-left: 10px;
-	border-bottom: none;
+  padding-left: 10px;
+  border-bottom: none;
 }
