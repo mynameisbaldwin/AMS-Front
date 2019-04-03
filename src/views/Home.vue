@@ -4,7 +4,7 @@
       <h1 id="home-title">Safety Net</h1>
       <h2 id="home-subtitle">The all-in-one attendance management app</h2>
       <div id="home-signup">
-        <b-button id="btn-signup">Sign Up</b-button>
+        <b-button id="btn-signup" to="/signup">Sign Up</b-button>
       </div>
     </div>
     <div class="home-row">
@@ -31,7 +31,7 @@ export default {
 .splash {
   background-color: #0091ff;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 100px;
   padding-bottom: 50px;
 }
 

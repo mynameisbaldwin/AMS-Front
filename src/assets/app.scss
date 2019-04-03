@@ -1,3 +1,21 @@
 @import "~bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
+
+.teacher-wrapper {
+    padding-left: 125px;
+    padding-top: 85px;
+}
+
+.teacher-head {
+    font-family: "Open Sans", "Roboto", "sans serif";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.login-wrapper {
+    background-color: #ededed;
+    padding-top: 95px;
+    height: 100%;
+    padding-bottom: 50px;
+}
