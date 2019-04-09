@@ -9,6 +9,7 @@
     </div>
     <div class="home-row">
       <h2 class="home-row-head">Attendance Made Easy</h2>
+      <!-- Temporary boxes for listing app benefits -->
       <div class="home-benefits">
         <div class="home-benefits-item"></div>
         <div class="home-benefits-item"></div>

@@ -6,7 +6,7 @@
     <b-row align-v="center" align-h="center">
       <div class="login-module">
         <h2 class="form-title">Sign Up</h2>
-        <b-form @submit="onSubmit" @reset="onReset">
+        <b-form @submit="onSubmit">
           <b-form-group id="firstName" label="First Name" label-for="firstNameIn">
             <b-form-input
               id="firstNameIn"
@@ -75,6 +75,7 @@ export default {
   },
   data() {
     return {
+      //model for signup form i.e. form values go here
       form: {
         firstName: "",
         lastName: "",
@@ -85,6 +86,7 @@ export default {
         selected: "teacher",
         validated: false
       },
+      //options for user level
       userLevelOptions: [
         { text: "Teacher", value: "teacher" },
         { text: "Student", value: "student" }
@@ -92,10 +94,12 @@ export default {
     };
   },
   methods: {
+    //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
+      //check if both password fields match
       if (this.form.password == this.form.passwordConfirm) {
-        alert(JSON.stringify(this.form));
+        alert(JSON.stringify(this.form)); //output form values
       } else {
         alert("Passwords do not match.");
       }

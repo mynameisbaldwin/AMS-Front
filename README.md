@@ -1,29 +1,37 @@
 # ams-frontend
 
-## Project setup
+## Set Up and Running
+
+### Install Vue
+
 ```
-npm install
+npm install vue
 ```
 
-### Compiles and hot-reloads for development
+### Install Packages
+
 ```
-npm run serve
+npm --save install axios bootstrap bootstrap-vue bootbox jquery popper.js
 ```
 
-### Compiles and minifies for production
+### Run Server
+
 ```
-npm run build
+vue ui
 ```
 
-### Run your tests
-```
-npm run test
-```
+1. Import project folder. (if you haven't already)
+2. Go to tasks -> serve -> Run Task
+3. Once server is running, click Open App
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Errors on build
+
+If there are errors when trying to run the server, click on "Output" to see what you need to do.
+
+## Routing
+
+Refer to router.js when wanting to link to other pages or making new routes.
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
