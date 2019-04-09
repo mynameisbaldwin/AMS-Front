@@ -34,9 +34,8 @@
             {{ data.item.presence }}
             <b-form-select
               id="change-presence-dropdown"
-              v-model="markedStudent"
+              v-model="data.item.presence"
               :options="presenceMarks"
-              @change="onChange(data.item)"
             ></b-form-select>
           </template>
         </b-table>
@@ -90,10 +89,6 @@ export default {
     };
   },
   methods: {
-    onChange(item) {
-      //function for when selection option changes
-      item.presence = this.markedStudent;
-    },
     markPresence(id, name, presence) {
       //deletes row from unaccounted table and adds object to accounted table
       this.unaccounted = this.unaccounted.filter(
@@ -184,7 +179,7 @@ export default {
 }
 
 .table-session {
-  width: 50%;
+  width: 500px;
 }
 
 .table-title {
