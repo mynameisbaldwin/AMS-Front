@@ -4,6 +4,8 @@ import Home from "./views/Home.vue";
 import SignUp from "./views/SignUp.vue";
 import Sessions from "./views/Teacher/Sessions.vue";
 import SessionCurrent from "./views/Teacher/SessionCurrent.vue";
+import PageNotFound from "./views/PageNotFound.vue";
+import bootbox from 'bootbox';
 
 Vue.use(Router);
 
@@ -40,7 +42,17 @@ export default new Router({
     {
       path: "/teacher/current_session",
       name: "current_session",
-      component: SessionCurrent
+      component: SessionCurrent,
+      beforeEnter: (to, from, next) => {
+        bootbox.confirm("Are you sure?", function(result){
+          result ? next() : next(false);
+        });
+      }
+    },
+    {
+      path: "*",
+      name: "error_404",
+      component: PageNotFound
     }
   ]
 });

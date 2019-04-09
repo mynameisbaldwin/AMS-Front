@@ -2,17 +2,26 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 
+
+//wrapper for pages that need to offset from nav bar
+.wrapper {
+    padding-top: 85px;
+}
+
+//wrapper on teacher pages that need to offset both nav bars
 .teacher-wrapper {
     padding-left: 125px;
     padding-top: 85px;
 }
 
+//teacher page titles
 .teacher-head {
     font-family: "Open Sans", "Roboto", "sans serif";
     font-weight: bold;
     letter-spacing: 2px;
 }
 
+//wrapper for login page
 .login-wrapper {
     background-color: #ededed;
     padding-top: 95px;

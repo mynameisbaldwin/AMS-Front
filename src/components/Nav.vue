@@ -7,13 +7,14 @@
         <b-nav-item-dropdown id="last-nav" text="Account" right>
           <b-dropdown-item to="/login">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-button id="btn-new-session">New Session</b-button>
+        <b-button id="btn-new-session" to="/teacher/current_session">New Session</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
+import bootbox from 'bootbox';
 export default {
   name: "Nav"
 };
