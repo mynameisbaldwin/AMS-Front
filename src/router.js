@@ -2,8 +2,13 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import SignUp from "./views/SignUp.vue";
+import Login from "./views/Login.vue";
 import Sessions from "./views/Teacher/Sessions.vue";
 import SessionCurrent from "./views/Teacher/SessionCurrent.vue";
+import SessionView from "./views/Teacher/SessionView.vue";
+import Classes from "./views/Teacher/Classes.vue";
+import EditClasses from "./views/Teacher/EditClasses.vue";
+import EditRoster from "./views/Teacher/EditRoster.vue";
 import PageNotFound from "./views/PageNotFound.vue";
 import bootbox from "bootbox";
 
@@ -32,7 +37,8 @@ export default new Router({
     },
     {
       path: "/login",
-      name: "login"
+      name: "login",
+      component: Login
     },
     {
       path: "/teacher/sessions",
@@ -40,8 +46,9 @@ export default new Router({
       component: Sessions
     },
     {
-      path: "/teacher/sessions/:sessionId/view",
-      name: "view_session"
+      path: "/teacher/sessions/:sessionId",
+      name: "view_session",
+      component: SessionView,
     },
     {
       path: "/teacher/current_session",
@@ -52,6 +59,21 @@ export default new Router({
           result ? next() : next(false);
         });
       }
+    },
+    {
+      path:"/teacher/classes",
+      name: "classes",
+      component: Classes
+    },
+    {
+      path:"/teacher/edit_classes",
+      name: "edit_classes",
+      component: EditClasses
+    },
+    {
+      path:"/teacher/edit_roster",
+      name: "edit_roster",
+      component: EditRoster
     },
     {
       path: "*",

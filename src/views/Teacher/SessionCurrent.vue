@@ -29,23 +29,22 @@
       <div class="table-session" id="accounted">
         <h3 class="table-title">Accounted Students ({{ accounted.length }})</h3>
         <b-table :items="accounted" :fields="fields" :tbody-tr-class="rowClass">
-          <!-- Add change-presence component to last column -->
           <template slot="presence" slot-scope="data">
             {{ data.item.presence }}
             <b-form-select
               id="change-presence-dropdown"
               v-model="data.item.presence"
               :options="presenceMarks"
-            ></b-form-select>
+            >
+              <template slot="first">
+                <option :value="null" disabled>Change to...</option>
+              </template>
+            </b-form-select>
           </template>
         </b-table>
       </div>
       <div id="session-save">
-        <b-button
-          variant="outline-secondary"
-          style="margin-right: 20px;"
-          v-on:click="cancelSession()"
-        >Cancel Session</b-button>
+        <b-button variant="outline-secondary" style="margin-right: 20px;" v-on:click="cancelSession()">Cancel Session</b-button>
         <b-button variant="primary" v-on:click="saveSession()">Save Session</b-button>
       </div>
     </div>
@@ -59,7 +58,7 @@ import bootbox from "bootbox";
 export default {
   name: "SessionCurrent",
   components: {
-    NavSide
+    NavSide,
   },
   data() {
     return {
@@ -80,7 +79,6 @@ export default {
       unaccounted: [], //objects of unaccounted students
       accounted: [], //objects of accounted students
       presenceMarks: [
-        { value: null, text: "Change to..." },
         { value: "Present", text: "Present" },
         { value: "Absent", text: "Absent" },
         { value: "Tardy", text: "Tardy" }
@@ -147,7 +145,8 @@ export default {
             } //post results
           }
         });
-      } else {
+      } 
+      else {
         axios
           .post("https://jsonplaceholder.typicode.com/users", this.accounted)
           .then(res => console.log(res))
@@ -179,13 +178,7 @@ export default {
 }
 
 .table-session {
-  width: 500px;
-}
-
-.table-title {
-  font-family: "Open Sans", "Roboto", "sans serif";
-  font-weight: bold;
-  font-size: 22pt;
+  width: 700px;
 }
 
 #unaccounted {

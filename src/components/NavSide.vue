@@ -5,8 +5,8 @@ Refer to bootstrap-vue documentation on nav components
 -->
 <template>
   <b-nav vertical id="nav-side">
-    <b-nav-item active>Sessions</b-nav-item>
-    <b-nav-item>Classes</b-nav-item>
+    <b-nav-item to="/teacher/sessions" active>Sessions</b-nav-item>
+    <b-nav-item to="/teacher/classes">Classes</b-nav-item>
     <b-nav-item>Metrics</b-nav-item>
   </b-nav>
 </template>

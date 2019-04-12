@@ -58,7 +58,7 @@
           </b-form-group>
           <BtnLogin title="Sign Up"/>
           <div class="switch-login">
-            <b-link class="switch-login-link">Need to login?</b-link>
+            <b-link class="switch-login-link" to="/login">Need to login?</b-link>
           </div>
         </b-form>
       </div>

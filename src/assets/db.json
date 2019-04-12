@@ -1,0 +1,102 @@
+{
+    "roster": [
+        {
+            "sessionID": 5047,
+            "className": "Math",
+            "first_name": "Charles",
+            "last_name": "Smith",
+            "status": "Present"
+        },
+        {
+            "sessionID": 5047,
+            "className": "Math",
+            "first_name": "Conswela",
+            "last_name": "Apple",
+            "status": "Present"
+        },
+        {
+            "sessionID": 5047,
+            "className": "Math",
+            "first_name": "Logan",
+            "last_name": "Digital",
+            "status": "Absent"
+        },
+        {
+            "sessionID": 5047,
+            "className": "Math",
+            "first_name": "Bob",
+            "last_name": "Ross",
+            "status": "Tardy"
+        },
+        {
+            "sessionID": 5047,
+            "className": "Math",
+            "first_name": "Uzi",
+            "last_name": "Vert",
+            "status": "Present"
+        },
+        {
+            "sessionID": 5048,
+            "className": "Math",
+            "first_name": "Outlier",
+            "last_name": "Outlier",
+            "status": "Present"
+        },
+        {
+            "sessionID": 5048,
+            "className": "Math",
+            "first_name": "Man",
+            "last_name": "Woman",
+            "status": "Tardy"
+        },
+        {
+            "sessionID": 5048,
+            "className": "Math",
+            "first_name": "Robert",
+            "last_name": "Pattinson",
+            "status": "Present"
+        }
+    ],
+    "sessions": [
+        {
+            "id": 5044,
+            "date": "3-13-19",
+            "class_name": "Science",
+            "presents": 20,
+            "absents": 2,
+            "tardies": 1
+        },
+        {
+            "id": 5048,
+            "date": "3-13-19",
+            "class_name": "Math",
+            "presents": 21,
+            "absents": 1,
+            "tardies": 2
+        },
+        {
+            "id": 5046,
+            "date": "3-12-19",
+            "class_name": "Science",
+            "presents": 21,
+            "absents": 1,
+            "tardies": 1
+        },
+        {
+            "id": 5047,
+            "date": "3-14-19",
+            "class_name": "Math",
+            "presents": 23,
+            "absents": 0,
+            "tardies": 0
+        },
+        {
+            "id": 5045,
+            "date": "3-12-19",
+            "class_name": "Math",
+            "presents": 20,
+            "absents": 4,
+            "tardies": 0
+        }         
+    ]
+}

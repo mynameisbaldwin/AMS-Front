@@ -3,16 +3,12 @@
     <NavSide/>
     <div class="teacher-wrapper">
       <h1 class="teacher-head">Today's Sessions</h1>
-      <b-table id="table-sessions" striped hover :items="sessions" :fields="fields">
+      <b-table id="table-sessions" striped hover :items="sessions" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
         <template slot="presence" slot-scope="data">
           <b-badge class="presence-badge" variant="success">{{ data.item.presents }}</b-badge>
           <b-badge class="presence-badge" variant="warning">{{ data.item.tardies }}</b-badge>
           <b-badge class="presence-badge" variant="danger">{{ data.item.absents }}</b-badge>
-          <router-link
-            to="/teacher/sessions/view_session"
-            v-on:click="$emit('renderSession', data.item)"
-            style="float: right"
-          >View</router-link>
+          <b-link style="float: right" @click="viewSesh(data.item.id)">View</b-link>
         </template>
       </b-table>
     </div>
@@ -30,6 +26,8 @@ export default {
   },
   data() {
     return {
+      sortBy: 'date',
+      sortDesc: true,
       fields: {
         date: {
           label: "Date",
@@ -45,6 +43,11 @@ export default {
       filter: null,
       sessions: sesh
     };
+  },
+  methods: {
+    viewSesh(id) {
+      this.$router.push({name:'view_session', params:{sessionId: id}});
+    }
   }
 };
 </script>
