@@ -1,31 +1,28 @@
 <template>
     <div id="session-view">
-        <NavSide />
-        <div class="teacher-wrapper">
-            <div class="table-component">
-                <h1>{{session[0].class_name}}  - {{ session[0].date }}</h1>
-                <h2 class="table-title">Roster</h2>
-                <b-table :items="roster" :fields="fields" :tbody-tr-class="rowClass">
-                    <template slot="status" slot-scope="data">
-                        {{ data.item.status }}
-                        <b-form-select
-                        id="change-presence-dropdown"
-                        v-model="data.item.status"
-                        :options="presenceMarks"
-                        @change="changeSession"
-                        ></b-form-select>
-                    </template>
-                </b-table>
-                <b-link to="/teacher/sessions">Back to Sessions</b-link>
-                <b-button class="btn-saves" variant="primary" v-on:click="saveChanges">Save Changes</b-button>
-                <b-button class="btn-saves" variant="outline-secondary" v-on:click="cancelChanges">Cancel Changes</b-button>
-            </div>
+        <TeacherTitle v-bind:title="session.class_name + ' - ' + session.date" />
+        <div class="table-component">
+            <h2 class="table-title">Roster</h2>
+            <b-table :items="roster" :fields="fields" :tbody-tr-class="rowClass">
+                <template slot="status" slot-scope="data">
+                    {{ data.item.status }}
+                    <b-form-select
+                    id="change-presence-dropdown"
+                    v-model="data.item.status"
+                    :options="presenceMarks"
+                    @change="changeSession"
+                    ></b-form-select>
+                </template>
+            </b-table>
+            <b-link to="/teacher/sessions">Back to Sessions</b-link>
+            <b-button class="btn-saves" variant="primary" v-on:click="saveChanges">Save Changes</b-button>
+            <b-button class="btn-saves" variant="outline-secondary" v-on:click="cancelChanges">Cancel Changes</b-button>
         </div>
     </div>
 </template>
 
 <script>
-import NavSide from "../../components/NavSide.vue";
+import TeacherTitle from "../../components/TeacherTitle.vue";
 import axios from "axios";
 import seshs from "../../assets/sessions.json";
 import roster from "../../assets/roster1.json";
@@ -33,12 +30,15 @@ import bootbox from "bootbox";
 export default {
     name: "SessionView",
     components: {
-        NavSide
+        TeacherTitle
     },
     data() {
         return {
-            sessionID: this.$route.params.sessionId,
-            session: null,
+            session: {
+                id: this.$route.params.sessionId, //grabs session id from route
+                class_name: null,
+                date: null
+            },
             roster: null,
             rosterBackup: null,
             change: false,
@@ -114,10 +114,11 @@ export default {
         }
     },
     mounted:function() {
-        this.session = seshs.filter(sesh => sesh.id == this.sessionID);
-        this.roster = roster.filter(r => r.sessionID == this.sessionID);
+        let s = seshs.filter(sesh => sesh.id == this.session.id);
+        this.session.class_name = s[0].class_name;
+        this.session.date = s[0].date;
+        this.roster = roster.filter(r => r.sessionID == this.session.id);
         this.rosterBackup = [...this.roster];
-        console.log(this.roster);
     }
 }
 </script>

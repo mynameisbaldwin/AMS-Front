@@ -1,42 +1,39 @@
 <template>
     <div id="edit-roster">
-        <NavSide />
-        <div class="teacher-wrapper">
-            <h1 class="teacher-title">Edit Roster</h1>
-            <div id="roster">
-                <h3 class="table-title">Roster - {{className}} ({{classDays}}) {{classStart}} - {{classEnd}}</h3>
-                <b-table striped fixed hover :items="roster" :fields="fields">
-                    <template slot="last_name" slot-scope="data">
-                        {{ data.item.last_name }}
-                        <b-link style="float: right;" v-on:click="removeStudent(data.item.last_name)">Remove</b-link>
-                    </template>
-                </b-table>
-                <b-link v-if="!hideAdd" v-on:click="switchAdd">+ Add Student...</b-link>
-                <b-form v-if="!hideNew" id="add-student-fields" @submit="onSubmit">
-                    <b-form-group id="new-student-first" class="student-field">
-                        <b-form-input class="student-field" placeholder="First Name"></b-form-input>
-                    </b-form-group>
-                    <b-form-group id="new-student-last" class="student-field">
-                        <b-form-input class="student-field" placeholder="Last Name"></b-form-input>
-                    </b-form-group>
-                    <b-form-group id="new-student-btns">
-                        <b-button v-on:click="switchNew" variant="outline-secondary">Cancel</b-button>
-                        <b-button id="submit-student" v-on:click="switchNew" variant="primary" type="submit">Add Student</b-button>
-                    </b-form-group>
-                </b-form>
-            </div>
+        <TeacherTitle title="Edit Roster" />
+        <div id="roster">
+            <h3 class="table-title">Roster - {{className}} ({{classDays}}) {{classStart}} - {{classEnd}}</h3>
+            <b-table striped fixed hover :items="roster" :fields="fields">
+                <template slot="last_name" slot-scope="data">
+                    {{ data.item.last_name }}
+                    <b-link style="float: right;" v-on:click="removeStudent(data.item.last_name)">Remove</b-link>
+                </template>
+            </b-table>
+            <b-link v-if="!hideAdd" v-on:click="switchAdd">+ Add Student...</b-link>
+            <b-form v-if="!hideNew" id="add-student-fields" @submit="onSubmit">
+                <b-form-group id="new-student-first" class="student-field">
+                    <b-form-input class="student-field" placeholder="First Name"></b-form-input>
+                </b-form-group>
+                <b-form-group id="new-student-last" class="student-field">
+                    <b-form-input class="student-field" placeholder="Last Name"></b-form-input>
+                </b-form-group>
+                <b-form-group id="new-student-btns">
+                    <b-button v-on:click="switchNew" variant="outline-secondary">Cancel</b-button>
+                    <b-button id="submit-student" v-on:click="switchNew" variant="primary" type="submit">Add Student</b-button>
+                </b-form-group>
+            </b-form>
         </div>
     </div>
 </template>
 
 <script>
 import bootbox from "bootbox";
-import NavSide from "../../components/NavSide";
+import TeacherTitle from "../../components/TeacherTitle";
 import Roster from "../../assets/roster1.json";
 export default {
     name: "EditRoster",
     components: {
-        NavSide
+        TeacherTitle
     },
     data() {
         return {
@@ -80,7 +77,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #roster {
     width: 50%;
 }

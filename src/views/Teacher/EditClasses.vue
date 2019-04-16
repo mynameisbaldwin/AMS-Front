@@ -1,62 +1,62 @@
 <template>
     <div id="classes">
-        <NavSide/>
-        <div class="teacher-wrapper">
-            <h1 class="teacher-title">Edit Classes</h1>
-            <div id="forms">
-                <b-form-select v-model="selectedClass" :options="classNames" @change="onChange">
-                    <template slot="first">
-                        <option :value="null" disabled>Choose a class...</option>
-                    </template>
-                </b-form-select>
-                <b-form id="form-edit" @submit="onSubmit">
-                    <b-form-group id="className" label="Class Name" label-for="classNameIn">
-                        <b-form-input
-                        id="classNameIn"
-                        v-model="form.className"
-                        placeholder="Class Name"
-                        required
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group class="times" id="startTime" label="Start Time" label-for="startTimeIn">
-                        <b-form-input
-                        id="startTimeIn"
-                        v-model="form.startTime"
-                        placeholder="Start Time"
-                        type="time"
-                        required
-                        ></b-form-input>
-                    </b-form-group>
-                     <b-form-group class="times" id="endTime" label="End Time" label-for="endTimeIn">
-                        <b-form-input
-                        id="endTimeIn"
-                        v-model="form.endTime"
-                        placeholder="End Time"
-                        type="time"
-                        required
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-checkbox-group
-                        id="weekdays"
-                        v-model="form.weekdays"
-                        :options="weekdays"
-                        name="weekdays"
-                        required
-                    ></b-form-checkbox-group>
-                </b-form>
-            </div>
+        <TeacherTitle title="Edit Classes"/>
+        <div id="forms">
+            <b-form-select v-model="selectedClass" :options="classNames" @change="onChange">
+                <template slot="first">
+                    <option :value="null" disabled>Choose a class...</option>
+                </template>
+            </b-form-select>
+            <b-form id="form-edit" @submit="onSubmit">
+                <b-form-group id="className" label="Class Name" label-for="classNameIn">
+                    <b-form-input
+                    id="classNameIn"
+                    v-model="form.className"
+                    placeholder="Class Name"
+                    required
+                    ></b-form-input>
+                </b-form-group>
+                <b-form-group class="times" id="startTime" label="Start Time" label-for="startTimeIn">
+                    <b-form-input
+                    id="startTimeIn"
+                    v-model="form.startTime"
+                    placeholder="Start Time"
+                    type="time"
+                    required
+                    ></b-form-input>
+                </b-form-group>
+                    <b-form-group class="times" id="endTime" label="End Time" label-for="endTimeIn">
+                    <b-form-input
+                    id="endTimeIn"
+                    v-model="form.endTime"
+                    placeholder="End Time"
+                    type="time"
+                    required
+                    ></b-form-input>
+                </b-form-group>
+                <b-form-checkbox-group
+                    id="weekdays"
+                    v-model="form.weekdays"
+                    :options="weekdays"
+                    name="weekdays"
+                    required
+                ></b-form-checkbox-group>
+            </b-form>
+        </div>
+        <div id="nav-back-classes">
+            <b-link id="nav-back-classes" to="/teacher/classes">Back to classes</b-link>
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
-import NavSide from "../../components/NavSide.vue";
+import TeacherTitle from "../../components/TeacherTitle.vue";
 import Classes from "../../assets/classes.json";
 export default {
     name: "EditClasses",
     components: {
-        NavSide
+        TeacherTitle
     },
     data() {
         return {
@@ -129,5 +129,9 @@ display: inline-block;
 
 #endTime {
     margin-left: 5%;
+}
+
+#nav-back-classes {
+    margin-top: 20px;
 }
 </style>

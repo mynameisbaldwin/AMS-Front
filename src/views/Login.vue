@@ -44,7 +44,8 @@ export default {
     //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
-      //TODO: CHECK USER AND PASSWORD TO DATABASE
+      this.$router.push("/teacher/sessions");
+      this.$parent.teacherLogin = true;
     }
   }
 };

@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import SignUp from "./views/SignUp.vue";
 import Login from "./views/Login.vue";
+import Teacher from "./components/Teacher.vue";
 import Sessions from "./views/Teacher/Sessions.vue";
 import SessionCurrent from "./views/Teacher/SessionCurrent.vue";
 import SessionView from "./views/Teacher/SessionView.vue";
@@ -22,15 +23,6 @@ export default new Router({
       component: Home
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
-    },
-    {
       path: "/signup",
       name: "signup",
       component: SignUp
@@ -41,39 +33,47 @@ export default new Router({
       component: Login
     },
     {
-      path: "/teacher/sessions",
-      name: "sessions",
-      component: Sessions
-    },
-    {
-      path: "/teacher/sessions/:sessionId",
-      name: "view_session",
-      component: SessionView,
-    },
-    {
-      path: "/teacher/current_session",
-      name: "current_session",
-      component: SessionCurrent,
-      beforeEnter: (to, from, next) => {
-        bootbox.confirm("Are you sure?", function(result) {
-          result ? next() : next(false);
-        });
-      }
-    },
-    {
-      path:"/teacher/classes",
-      name: "classes",
-      component: Classes
-    },
-    {
-      path:"/teacher/edit_classes",
-      name: "edit_classes",
-      component: EditClasses
-    },
-    {
-      path:"/teacher/edit_roster",
-      name: "edit_roster",
-      component: EditRoster
+      path: "/teacher",
+      component: Teacher,
+      redirect: {name: "sessions"},
+      meta: {teacherLogin: true}, //will use for authorization
+      children: [
+        {
+          path: "sessions",
+          name: "sessions",
+          component: Sessions,
+        },
+        {
+          path: "sessions/current_session",
+          name: "current_session",
+          component: SessionCurrent,
+          beforeEnter: (to, from, next) => {
+            bootbox.confirm("Are you sure?", function(result) {
+              result ? next() : next(false);
+            });
+          }
+        },
+        {
+          path: "sessions/:sessionId",
+          name: "view_session",
+          component: SessionView
+        },
+        {
+          path:"classes",
+          name: "classes",
+          component: Classes
+        },
+        {
+          path: "classes/edit_classes",
+          name: "edit_classes",
+          component: EditClasses
+        },
+        {
+          path: "classes/edit_roster/:classId",
+          name: "edit_roster",
+          component: EditRoster
+        }
+      ]
     },
     {
       path: "*",
@@ -82,3 +82,5 @@ export default new Router({
     }
   ]
 });
+
+//router.beforeEach() for authorization

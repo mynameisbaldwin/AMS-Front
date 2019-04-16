@@ -1,9 +1,7 @@
 <template>
   <!-- Refer to bootstrap-vue documentation for info on how the tables work -->
   <div id="currentSession">
-    <NavSide/>
-    <div class="teacher-wrapper">
-      <h1 class="teacher-head">Current Session - Class Name</h1>
+      <TeacherTitle title="Current Session"/>
       <h2 class="session-datetime">March 30th, 9:30 - 10:30am</h2>
       <div class="table-session" id="unaccounted">
         <h3 class="table-title">Unnaccounted Students ({{ unaccounted.length }})</h3>
@@ -47,18 +45,17 @@
         <b-button variant="outline-secondary" style="margin-right: 20px;" v-on:click="cancelSession()">Cancel Session</b-button>
         <b-button variant="primary" v-on:click="saveSession()">Save Session</b-button>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
-import NavSide from "../../components/NavSide.vue";
+import TeacherTitle from "../../components/TeacherTitle.vue";
 import axios from "axios";
 import bootbox from "bootbox";
 export default {
   name: "SessionCurrent",
   components: {
-    NavSide,
+    TeacherTitle
   },
   data() {
     return {

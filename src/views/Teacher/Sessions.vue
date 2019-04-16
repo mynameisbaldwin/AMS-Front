@@ -1,8 +1,6 @@
 <template>
-  <div class="sessions">
-    <NavSide/>
-    <div class="teacher-wrapper">
-      <h1 class="teacher-head">Today's Sessions</h1>
+  <div id="sessions">
+      <TeacherTitle title="Recent Sessions"/>
       <b-table id="table-sessions" striped hover :items="sessions" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
         <template slot="presence" slot-scope="data">
           <b-badge class="presence-badge" variant="success">{{ data.item.presents }}</b-badge>
@@ -11,18 +9,17 @@
           <b-link style="float: right" @click="viewSesh(data.item.id)">View</b-link>
         </template>
       </b-table>
-    </div>
   </div>
 </template>
 
 <script>
-import NavSide from "../../components/NavSide.vue";
+import TeacherTitle from "../../components/TeacherTitle.vue";
 import axios from "axios";
 import sesh from "../../assets/sessions.json";
 export default {
   name: "sessions",
   components: {
-    NavSide
+    TeacherTitle
   },
   data() {
     return {
@@ -53,6 +50,10 @@ export default {
 </script>
 
 <style>
+#btn-new-session {
+  float:right;
+}
+
 #table-sessions {
   width: 700px;
 }

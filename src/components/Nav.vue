@@ -10,9 +10,9 @@ Refer to bootstrap-vue documentation on nav components
     <b-collapse is-nav id="nav-collapse">
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown id="last-nav" text="Account" right>
-          <b-dropdown-item to="/login">Logout</b-dropdown-item>
+          <b-dropdown-item to="/login" v-on:click="logout">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-button id="btn-new-session" to="/teacher/current_session">New Session</b-button>
+        <b-button id="btn-new-session" to="/teacher/sessions/current_session">New Session</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -21,11 +21,16 @@ Refer to bootstrap-vue documentation on nav components
 <script>
 import bootbox from "bootbox";
 export default {
-  name: "Nav"
+  name: "Nav",
+  methods: {
+    logout() {
+      this.$parent.teacherLogin = false;
+    }
+  }
 };
 </script>
 
-<style>
+<style scoped>
 #nav-top {
   background-color: white;
   color: black;

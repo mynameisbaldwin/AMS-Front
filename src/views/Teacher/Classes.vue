@@ -1,45 +1,43 @@
 <template>
     <div id="classes">
-        <NavSide/>
-        <div class="teacher-wrapper">
-            <h1 class="teacher-title">Classes</h1>
-            <h4 id="table-instruct">Click on a class to see its roster.</h4>
-            <div id="tables">
-                <div id="classes">
-                    <b-table 
-                    fixed 
-                    selectable 
-                    id="table-classes" 
-                    :items="classes" 
-                    :fields="fields" 
-                    :select-mode="selectMode" 
-                    @row-selected="rowSelect">
-                    </b-table>
-                    <b-link to="/teacher/edit_classes">Edit Classes...</b-link>
-                </div>
-                <div id="roster">
-                    <b-table fixed id="table-roster" :items="rosterItems" :fields="rosterFields">
-                    </b-table>
-                    <b-link>Edit Roster...</b-link>
-                </div>
+        <TeacherTitle title="Classes" />
+        <h4 id="table-instruct">Click on a class to see its roster.</h4>
+        <div id="tables">
+            <div id="classes">
+                <b-table 
+                fixed 
+                selectable 
+                id="table-classes" 
+                :items="classes" 
+                :fields="fields" 
+                :select-mode="selectMode" 
+                @row-selected="rowSelect">
+                </b-table>
+                <b-link to="/teacher/classes/edit_classes">Edit Classes...</b-link>
             </div>
-            {{ classTest }}
+            <div id="roster">
+                <b-table fixed id="table-roster" :items="rosterItems" :fields="rosterFields">
+                </b-table>
+                <b-link v-on:click="editRoster(123)">Edit Roster...</b-link> <!-- replace '123' with class ID -->
+            </div>
         </div>
+        {{ classTest }}
     </div>
 </template>
 
 <script>
 import axios from "axios";
-import NavSide from "../../components/NavSide.vue";
+import TeacherTitle from "../../components/TeacherTitle.vue";
 import Classes from "../../assets/classes.json";
 import Roster from "../../assets/roster1.json";
 export default {
     name: "classes",
     components: {
-        NavSide
+        TeacherTitle
     },
     data() {
         return {
+            title: "Classes",
             classes: null,
             classTest: null,
             roster: null,
@@ -54,6 +52,9 @@ export default {
         rowSelect(items) {
             var className = items[0].name;
             this.rosterItems = this.roster.filter(roster => roster.className == className);
+        },
+        editRoster(id) {
+            this.$router.push({name: 'edit_roster', params: {classId: id}});
         }
     },
     mounted:function() {
@@ -66,22 +67,14 @@ export default {
 }
 </script>
 
-<style>
-#titles {
-    display: flex;
-    flex-direction: row;
-}
+<style scoped>
 #tables {
     display: flex;
     flex-direction: row;
 }
 
-#classes {
-    width: 90%;
-}
-
 #table-classes {
-    width: 95%;
+    width: 90%;
 }
 
 #table-instruct {
