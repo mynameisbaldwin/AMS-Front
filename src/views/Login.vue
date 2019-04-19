@@ -25,6 +25,7 @@
 
 <script>
 import BtnLogin from "../components/BtnLogin.vue";
+import axios from "axios";
 export default {
   name: "login",
   components: {
@@ -35,8 +36,7 @@ export default {
       //model for signup form i.e. form values go here
       form: {
         username: "",
-        password: "",
-        validated: false
+        password: ""
       }
     };
   },
@@ -44,8 +44,23 @@ export default {
     //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
-      this.$router.push("/teacher/sessions");
+      axios.post("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/users/authenticate", this.form)
+      .then(res => this.loginSuccess(res))
+      .catch(err => this.loginFail());
+    },
+    loginSuccess(res) {
+      if(!res.data.token) {
+        this.loginFail();
+        return;
+      }
+      localStorage.token = res.data.token;
+      localStorage.userId = res.data.id;
       this.$parent.teacherLogin = true;
+      this.$router.push("/teacher/sessions");
+    },
+    loginFail() {
+      console.log("Login failed.");
+      delete localStorage.token;
     }
   }
 };

@@ -39,7 +39,6 @@ export default {
         return {
             title: "Classes",
             classes: null,
-            classTest: null,
             roster: null,
             rosterItems: null,
             fields: ['name', 'weekdays', 'start_time', 'end_time'],
@@ -60,9 +59,6 @@ export default {
     mounted:function() {
         this.classes = Classes;
         this.roster = Roster;
-        axios.get("https://localhost:8081/getClassesTaught?userId=3")
-        .then(res => this.classTest = res.data)
-        .catch(err => console.log(err));
     }
 }
 </script>

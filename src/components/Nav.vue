@@ -25,6 +25,8 @@ export default {
   methods: {
     logout() {
       this.$parent.teacherLogin = false;
+      delete localStorage.token;
+      delete localStorage.userId;
     }
   }
 };

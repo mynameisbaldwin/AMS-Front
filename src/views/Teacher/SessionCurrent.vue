@@ -1,3 +1,4 @@
+<!-- TODO: change route to .../classes/:classID/current_session -->
 <template>
   <!-- Refer to bootstrap-vue documentation for info on how the tables work -->
   <div id="currentSession">
@@ -11,15 +12,30 @@
             <!-- Should make these into a component -->
             <button
               class="btn-mark-presence btn-tardy"
-              @click="markPresence(data.item.id, data.item.name, 'Tardy')"
+              @click="markPresence(
+                data.item.StudentId,
+                data.item.FirstName,
+                data.item.LastName,
+                'Tardy', 
+                3)"
             >T</button>
             <button
               class="btn-mark-presence btn-absent"
-              @click="markPresence(data.item.id, data.item.name, 'Absent')"
+              @click="markPresence(
+                data.item.StudentId,
+                data.item.FirstName,
+                data.item.LastName,
+                'Absent',  
+                2)"
             >A</button>
             <button
               class="btn-mark-presence btn-present"
-              @click="markPresence(data.item.id, data.item.name, 'Present')"
+              @click="markPresence(
+                data.item.StudentId,
+                data.item.FirstName,
+                data.item.LastName,
+                'Present', 
+                1)"
             >P</button>
           </template>
         </b-table>
@@ -28,10 +44,12 @@
         <h3 class="table-title">Accounted Students ({{ accounted.length }})</h3>
         <b-table :items="accounted" :fields="fields" :tbody-tr-class="rowClass">
           <template slot="presence" slot-scope="data">
-            {{ data.item.presence }}
+            <span v-if="data.item.statusId == 1">Present</span>
+            <span v-if="data.item.statusId == 2">Absent</span>
+            <span v-if="data.item.statusId == 3">Tardy</span>
             <b-form-select
               id="change-presence-dropdown"
-              v-model="data.item.presence"
+              v-model="data.item.statusId"
               :options="presenceMarks"
             >
               <template slot="first">
@@ -60,12 +78,13 @@ export default {
   data() {
     return {
       //fields for both tables
-      fields: {
-        id: {
-          label: "ID"
+      fields: { 
+        lastName: {
+          label: "Last Name",
+          sortable: true
         },
-        name: {
-          label: "Name",
+        firstName: {
+          label: "First Name",
           sortable: true
         },
         presence: {
@@ -74,27 +93,31 @@ export default {
       },
       filter: null,
       unaccounted: [], //objects of unaccounted students
-      accounted: [], //objects of accounted students
+      accounted: [],
+      savedSession: {
+        ClassId: 1,
+        Students: []
+      },
       presenceMarks: [
-        { value: "Present", text: "Present" },
-        { value: "Absent", text: "Absent" },
-        { value: "Tardy", text: "Tardy" }
+        { value: 1, text: "Present" },
+        { value: 2, text: "Absent" },
+        { value: 3, text: "Tardy" }
       ], //options for dropdowns in accounted table
       markedStudent: null //model for accounted dropdowns
     };
   },
   methods: {
-    markPresence(id, name, presence) {
+    markPresence(id, first, last, presence, status) {
       //deletes row from unaccounted table and adds object to accounted table
-      this.unaccounted = this.unaccounted.filter(
-        unaccounted => unaccounted.id != id
-      );
+      this.unaccounted = this.unaccounted.filter(unaccounted => unaccounted.studentId != id);
       const newMarkedStudent = {
-        id: id,
-        name: name,
-        presence: presence
+        studentId: id,
+        firstName: first,
+        lastName: last,
+        status: presence,
+        statusId: status
       };
-      this.accounted = [...this.accounted, newMarkedStudent];
+      this.accounted.push(newMarkedStudent);
     },
     cancelSession() {
       //cancels session
@@ -123,7 +146,7 @@ export default {
             "There are still students left unaccounted. Would you like to continue saving anyways? Remaining students will be left unmarked.",
           buttons: {
             confirm: {
-              label: "Yes, save anway"
+              label: "Yes, save anyway"
             },
             cancel: {
               label: "Cancel",
@@ -132,10 +155,17 @@ export default {
           },
           callback: function(result) {
             if (result) {
+              for(item in this.accounted) {
+                const newStudent = {
+                  studentId: item.studentId,
+                  statusId: item.statusId
+                }
+                this.savedSession.Students.push(newStudent);
+              }
               axios
                 .post(
-                  "https://jsonplaceholder.typicode.com/users",
-                  this.accounted
+                  "http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/sessions",
+                  this.savedSession
                 )
                 .then(res => console.log(res))
                 .catch(err => console.log(err));
@@ -144,8 +174,15 @@ export default {
         });
       } 
       else {
+        for(item in this.accounted) {
+          const newStudent = {
+            studentId: item.studentId,
+            statusId: item.statusId
+          }
+          this.savedSession.Students.push(newStudent);
+        }
         axios
-          .post("https://jsonplaceholder.typicode.com/users", this.accounted)
+          .post("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/sessions", this.savedSession)
           .then(res => console.log(res))
           .catch(err => console.log(err));
       } //route to confirm page
@@ -153,15 +190,22 @@ export default {
     rowClass(item) {
       //method responsible for changing row colors
       if (!item) return;
-      if (item.presence === "Present") return "table-success";
-      if (item.presence === "Absent") return "table-danger";
-      if (item.presence === "Tardy") return "table-warning";
+      if (item.statusId == 1) return "table-success";
+      if (item.statusId == 2) return "table-danger";
+      if (item.statusId == 3) return "table-warning";
     }
   },
   created() {
     //adds data to unaccounted table from outside source
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      .get("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/students", {
+        params: {
+          id: localStorage.userId
+        },
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.token
+        }
+      })
       .then(res => (this.unaccounted = res.data))
       .catch(err => console.log(err));
   }
