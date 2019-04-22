@@ -5,13 +5,13 @@ import SignUp from "./views/SignUp.vue";
 import Login from "./views/Login.vue";
 import Teacher from "./components/Teacher.vue";
 import Sessions from "./views/Teacher/Sessions.vue";
+import SessionNew from "./views/Teacher/SessionNew.vue";
 import SessionCurrent from "./views/Teacher/SessionCurrent.vue";
 import SessionView from "./views/Teacher/SessionView.vue";
 import Classes from "./views/Teacher/Classes.vue";
 import EditClasses from "./views/Teacher/EditClasses.vue";
 import EditRoster from "./views/Teacher/EditRoster.vue";
 import PageNotFound from "./views/PageNotFound.vue";
-import bootbox from "bootbox";
 
 Vue.use(Router);
 
@@ -35,23 +35,23 @@ export default new Router({
     {
       path: "/teacher",
       component: Teacher,
-      redirect: {name: "sessions"},
-      meta: {teacherLogin: true}, //will use for authorization
+      redirect: { name: "sessions" },
+      meta: { teacherLogin: true }, //will use for authorization
       children: [
         {
           path: "sessions",
           name: "sessions",
-          component: Sessions,
+          component: Sessions
+        },
+        {
+          path: "sessions/new_session",
+          name: "new_session",
+          component: SessionNew
         },
         {
           path: "sessions/current_session",
           name: "current_session",
-          component: SessionCurrent,
-          beforeEnter: (to, from, next) => {
-            bootbox.confirm("Are you sure?", function(result) {
-              result ? next() : next(false);
-            });
-          }
+          component: SessionCurrent
         },
         {
           path: "sessions/:sessionId",
@@ -59,7 +59,7 @@ export default new Router({
           component: SessionView
         },
         {
-          path:"classes",
+          path: "classes",
           name: "classes",
           component: Classes
         },

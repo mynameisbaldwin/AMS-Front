@@ -10,31 +10,31 @@
           <b-form-group id="firstName" label="First Name" label-for="firstNameIn">
             <b-form-input
               id="firstNameIn"
-              v-model="form.firstName"
+              v-model="form.FirstName"
               placeholder="First Name"
               required
             ></b-form-input>
           </b-form-group>
           <b-form-group id="lastName" label="Last Name" label-for="lastNameIn">
-            <b-form-input id="lastNameIn" v-model="form.lastName" placeholder="Last Name" required></b-form-input>
+            <b-form-input id="lastNameIn" v-model="form.LastName" placeholder="Last Name" required></b-form-input>
           </b-form-group>
           <b-form-group id="email" label="Email" label-for="emailIn">
             <b-form-input
               id="emailIn"
               type="email"
-              v-model="form.email"
+              v-model="form.Email"
               placeholder="Email"
               required
             ></b-form-input>
           </b-form-group>
           <b-form-group id="username" label="Username" label-for="usernameIn">
-            <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
+            <b-form-input id="usernameIn" v-model="form.UserName" placeholder="Username" required></b-form-input>
           </b-form-group>
           <b-form-group id="password" label="Password" label-for="passwordIn">
             <b-form-input
               id="passwordIn"
               type="password"
-              v-model="form.password"
+              v-model="form.Password"
               placeholder="Password"
               required
             ></b-form-input>
@@ -43,7 +43,7 @@
             <b-form-input
               id="passwordConfirmIn"
               type="password"
-              v-model="form.passwordConfirm"
+              v-model="passwordConfirm"
               placeholder="Confirm Password"
               required
             ></b-form-input>
@@ -52,7 +52,7 @@
             <b-form-radio-group
               name="userLevelOptions"
               id="userLevelGroup"
-              v-model="form.selected"
+              v-model="form.UserLevelId"
               :options="userLevelOptions"
             ></b-form-radio-group>
           </b-form-group>
@@ -68,6 +68,7 @@
 
 <script>
 import BtnLogin from "../components/BtnLogin.vue";
+import axios from "axios";
 export default {
   name: "signup",
   components: {
@@ -77,19 +78,18 @@ export default {
     return {
       //model for signup form i.e. form values go here
       form: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        username: "",
-        password: "",
-        passwordConfirm: "",
-        selected: "teacher",
-        validated: false
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        UserName: "",
+        Password: "",
+        UserLevelId: 1
       },
+      passwordConfirm: "",
       //options for user level
       userLevelOptions: [
-        { text: "Teacher", value: "teacher" },
-        { text: "Student", value: "student" }
+        { text: "Teacher", value: 1 },
+        { text: "Student", value: 2 }
       ]
     };
   },
@@ -98,8 +98,15 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       //check if both password fields match
-      if (this.form.password == this.form.passwordConfirm) {
-        alert(JSON.stringify(this.form)); //output form values
+      if (this.form.Password == this.passwordConfirm) {
+        axios
+          .post(this.$api + "users/register", this.form)
+          .then(function(res) {
+            console.log(res);
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
       } else {
         alert("Passwords do not match.");
       }

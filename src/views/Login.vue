@@ -8,10 +8,16 @@
         <h2 class="form-title">Log In</h2>
         <b-form @submit="onSubmit">
           <b-form-group id="username" label="Username" label-for="usernameIn">
-              <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
+            <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
           </b-form-group>
           <b-form-group id="password" label="Password" label-for="passwordIn">
-              <b-form-input type="password" id="passwordIn" v-model="form.password" placeholder="Password" required></b-form-input>
+            <b-form-input
+              type="password"
+              id="passwordIn"
+              v-model="form.password"
+              placeholder="Password"
+              required
+            ></b-form-input>
           </b-form-group>
           <BtnLogin title="Log In"/>
           <div class="switch-login">
@@ -25,6 +31,7 @@
 
 <script>
 import BtnLogin from "../components/BtnLogin.vue";
+import axios from "axios";
 export default {
   name: "login",
   components: {
@@ -35,8 +42,7 @@ export default {
       //model for signup form i.e. form values go here
       form: {
         username: "",
-        password: "",
-        validated: false
+        password: ""
       }
     };
   },
@@ -44,8 +50,24 @@ export default {
     //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
-      this.$router.push("/teacher/sessions");
+      axios
+        .post(this.$api + "users/authenticate", this.form)
+        .then(res => this.loginSuccess(res))
+        .catch(err => this.loginFail());
+    },
+    loginSuccess(res) {
+      if (!res.data.token) {
+        this.loginFail();
+        return;
+      }
+      localStorage.token = res.data.token;
+      localStorage.userId = res.data.id;
       this.$parent.teacherLogin = true;
+      this.$router.push("/teacher/sessions");
+    },
+    loginFail() {
+      console.log("Login failed.");
+      delete localStorage.token;
     }
   }
 };
