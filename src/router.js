@@ -12,6 +12,8 @@ import Classes from "./views/Teacher/Classes.vue";
 import EditClasses from "./views/Teacher/EditClasses.vue";
 import EditRoster from "./views/Teacher/EditRoster.vue";
 import PageNotFound from "./views/PageNotFound.vue";
+import HelloWorld from "./components/HelloWorld.vue";
+import Metrics from "./components/Metrics.vue";
 
 Vue.use(Router);
 
@@ -47,6 +49,11 @@ export default new Router({
           path: "sessions/new_session",
           name: "new_session",
           component: SessionNew
+        },
+        {
+          path: "/teacher/metrics",
+          name: "metrics",
+          component: Metrics
         },
         {
           path: "sessions/current_session",

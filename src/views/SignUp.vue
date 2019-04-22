@@ -107,6 +107,7 @@ export default {
           .catch(function(err) {
             console.log(err);
           });
+      this.$router.push("/teacher/sessions");
       } else {
         alert("Passwords do not match.");
       }
