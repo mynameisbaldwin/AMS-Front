@@ -83,7 +83,7 @@ export default {
         Email: "",
         UserName: "",
         Password: "",
-        UserLevelId: 1,
+        UserLevelId: 1
       },
       passwordConfirm: "",
       //options for user level
@@ -98,17 +98,16 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       //check if both password fields match
-      if (this.form.Password == this.passwordConfirm) 
-      {
-        axios.post("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/users/register", this.form)
-        .then(function(res){
-          console.log(res);
-        })
-        .catch(function(err) {
-          console.log(err);
-        })
-      } 
-      else {
+      if (this.form.Password == this.passwordConfirm) {
+        axios
+          .post(this.$api + "users/register", this.form)
+          .then(function(res) {
+            console.log(res);
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      } else {
         alert("Passwords do not match.");
       }
     }

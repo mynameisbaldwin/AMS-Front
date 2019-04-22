@@ -8,10 +8,16 @@
         <h2 class="form-title">Log In</h2>
         <b-form @submit="onSubmit">
           <b-form-group id="username" label="Username" label-for="usernameIn">
-              <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
+            <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
           </b-form-group>
           <b-form-group id="password" label="Password" label-for="passwordIn">
-              <b-form-input type="password" id="passwordIn" v-model="form.password" placeholder="Password" required></b-form-input>
+            <b-form-input
+              type="password"
+              id="passwordIn"
+              v-model="form.password"
+              placeholder="Password"
+              required
+            ></b-form-input>
           </b-form-group>
           <BtnLogin title="Log In"/>
           <div class="switch-login">
@@ -44,12 +50,13 @@ export default {
     //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
-      axios.post("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/users/authenticate", this.form)
-      .then(res => this.loginSuccess(res))
-      .catch(err => this.loginFail());
+      axios
+        .post(this.$api + "users/authenticate", this.form)
+        .then(res => this.loginSuccess(res))
+        .catch(err => this.loginFail());
     },
     loginSuccess(res) {
-      if(!res.data.token) {
+      if (!res.data.token) {
         this.loginFail();
         return;
       }

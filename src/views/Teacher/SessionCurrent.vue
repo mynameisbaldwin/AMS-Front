@@ -2,8 +2,9 @@
 <template>
   <!-- Refer to bootstrap-vue documentation for info on how the tables work -->
   <div id="currentSession">
-      <TeacherTitle title="Current Session"/>
-      <h2 class="session-datetime">March 30th, 9:30 - 10:30am</h2>
+    <TeacherTitle title="Current Session"/>
+    <h2 class="session-datetime">March 30th, 9:30 - 10:30am</h2>
+    <div id="attendance-wrapper">
       <div class="table-session" id="unaccounted">
         <h3 class="table-title">Unnaccounted Students ({{ unaccounted.length }})</h3>
         <b-form-input id="unaccounted-filter" v-model="filter" placeholder="Filter by name..."></b-form-input>
@@ -13,29 +14,29 @@
             <button
               class="btn-mark-presence btn-tardy"
               @click="markPresence(
-                data.item.StudentId,
-                data.item.FirstName,
-                data.item.LastName,
-                'Tardy', 
-                3)"
+                  data.item.studentId,
+                  data.item.firstName,
+                  data.item.lastName,
+                  'Tardy', 
+                  3)"
             >T</button>
             <button
               class="btn-mark-presence btn-absent"
               @click="markPresence(
-                data.item.StudentId,
-                data.item.FirstName,
-                data.item.LastName,
-                'Absent',  
-                2)"
+                  data.item.studentId,
+                  data.item.firstName,
+                  data.item.lastName,
+                  'Absent',  
+                  2)"
             >A</button>
             <button
               class="btn-mark-presence btn-present"
               @click="markPresence(
-                data.item.StudentId,
-                data.item.FirstName,
-                data.item.LastName,
-                'Present', 
-                1)"
+                  data.item.studentId,
+                  data.item.firstName,
+                  data.item.lastName,
+                  'Present', 
+                  1)"
             >P</button>
           </template>
         </b-table>
@@ -44,9 +45,9 @@
         <h3 class="table-title">Accounted Students ({{ accounted.length }})</h3>
         <b-table :items="accounted" :fields="fields" :tbody-tr-class="rowClass">
           <template slot="presence" slot-scope="data">
-            <span v-if="data.item.statusId == 1">Present</span>
-            <span v-if="data.item.statusId == 2">Absent</span>
-            <span v-if="data.item.statusId == 3">Tardy</span>
+            <span v-if="data.item.statusId == 1">{{data.item.status = "Present"}}</span>
+            <span v-if="data.item.statusId == 2">{{data.item.status = "Absent"}}</span>
+            <span v-if="data.item.statusId == 3">{{data.item.status = "Tardy"}}</span>
             <b-form-select
               id="change-presence-dropdown"
               v-model="data.item.statusId"
@@ -60,9 +61,40 @@
         </b-table>
       </div>
       <div id="session-save">
-        <b-button variant="outline-secondary" style="margin-right: 20px;" v-on:click="cancelSession()">Cancel Session</b-button>
-        <b-button variant="primary" v-on:click="saveSession()">Save Session</b-button>
+        <b-button
+          variant="outline-secondary"
+          style="margin-right: 20px;"
+          v-b-modal.cancel
+        >Cancel Session</b-button>
+        <b-button variant="primary" v-b-modal.save>Save Session</b-button>
       </div>
+    </div>
+
+    <!-- Modals -->
+    <b-modal
+      id="cancel"
+      centered
+      title="Cancel Session"
+      cancel-variant="outline-secondary"
+      @ok="cancelSession"
+    >
+      Are you sure you want to cancel the session?
+      All progress will be lost.
+      <div slot="modal-ok">Yes, cancel session</div>
+      <div slot="modal-cancel">No, do not cancel session</div>
+    </b-modal>
+    <b-modal
+      id="save"
+      centered
+      title="Save Session"
+      cancel-variant="outline-secondary"
+      @ok="checkSession"
+    >Are you sure you want to save session for CLASSNAME?</b-modal>
+    <b-modal id="unfinished" centered v-model="unfinishedSesh" @ok="saveSession">
+      There are still students who haven't been marked.
+      Do you still want to save the session?
+      Unmarked students will not be saved.
+    </b-modal>
   </div>
 </template>
 
@@ -78,7 +110,7 @@ export default {
   data() {
     return {
       //fields for both tables
-      fields: { 
+      fields: {
         lastName: {
           label: "Last Name",
           sortable: true
@@ -103,13 +135,15 @@ export default {
         { value: 2, text: "Absent" },
         { value: 3, text: "Tardy" }
       ], //options for dropdowns in accounted table
-      markedStudent: null //model for accounted dropdowns
+      unfinishedSesh: false //flag for modal to detect unfinished session after save
     };
   },
   methods: {
     markPresence(id, first, last, presence, status) {
       //deletes row from unaccounted table and adds object to accounted table
-      this.unaccounted = this.unaccounted.filter(unaccounted => unaccounted.studentId != id);
+      this.unaccounted = this.unaccounted.filter(
+        unaccounted => unaccounted.studentId != id
+      );
       const newMarkedStudent = {
         studentId: id,
         firstName: first,
@@ -119,73 +153,30 @@ export default {
       };
       this.accounted.push(newMarkedStudent);
     },
-    cancelSession() {
-      //cancels session
-      bootbox.confirm({
-        message:
-          "Are you sure you want to cancel the current session? All progress will be lost.",
-        buttons: {
-          confirm: {
-            label: "Yes, Cancel"
-          },
-          cancel: {
-            label: "No, don't cancel",
-            className: "btn-outline-secondary"
-          }
-        },
-        callback: function(result) {
-          console.log(result);
-        }
-      });
+    cancelSession(evt) {
+      this.$router.push("/teacher/sessions");
+    },
+    checkSession() {
+      if (this.unaccounted.length > 0) this.unfinishedSesh = true;
+      else this.saveSession();
     },
     saveSession() {
-      //saves session data
-      if (this.unaccounted.length > 0) {
-        bootbox.confirm({
-          message:
-            "There are still students left unaccounted. Would you like to continue saving anyways? Remaining students will be left unmarked.",
-          buttons: {
-            confirm: {
-              label: "Yes, save anyway"
-            },
-            cancel: {
-              label: "Cancel",
-              className: "btn-outline-secondary"
-            }
-          },
-          callback: function(result) {
-            if (result) {
-              for(item in this.accounted) {
-                const newStudent = {
-                  studentId: item.studentId,
-                  statusId: item.statusId
-                }
-                this.savedSession.Students.push(newStudent);
-              }
-              axios
-                .post(
-                  "http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/sessions",
-                  this.savedSession
-                )
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
-            } //post results
+      for (var i = 0; i < this.accounted.length; i++) {
+        const newStudent = {
+          studentId: this.accounted[i].studentId,
+          statusId: this.accounted[i].statusId
+        };
+        this.savedSession.Students.push(newStudent);
+      }
+      axios
+        .post(this.$api + "classes/1/sessions", this.savedSession, {
+          headers: {
+            Authorization: "Bearer " + localStorage.token
           }
-        });
-      } 
-      else {
-        for(item in this.accounted) {
-          const newStudent = {
-            studentId: item.studentId,
-            statusId: item.statusId
-          }
-          this.savedSession.Students.push(newStudent);
-        }
-        axios
-          .post("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/sessions", this.savedSession)
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
-      } //route to confirm page
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+      this.$router.push("/teacher/sessions");
     },
     rowClass(item) {
       //method responsible for changing row colors
@@ -198,12 +189,12 @@ export default {
   created() {
     //adds data to unaccounted table from outside source
     axios
-      .get("http://ec2-18-220-213-7.us-east-2.compute.amazonaws.com/api/classes/1/students", {
+      .get(this.$api + "classes/1/students", {
         params: {
           id: localStorage.userId
         },
         headers: {
-          'Authorization': 'Bearer ' + localStorage.token
+          Authorization: "Bearer " + localStorage.token
         }
       })
       .then(res => (this.unaccounted = res.data))
@@ -215,10 +206,10 @@ export default {
 <style>
 .session-datetime {
   font-family: "Open Sans", "Roboto", "sans serif";
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
-.table-session {
+#attendance-wrapper {
   width: 700px;
 }
 
@@ -227,7 +218,7 @@ export default {
 }
 
 #unaccounted-filter {
-  width: 50%;
+  width: 350px;
   margin-bottom: 20px;
 }
 
@@ -277,7 +268,6 @@ export default {
 }
 
 #session-save {
-  width: 50%;
   display: flex;
   justify-content: flex-end;
   margin-top: 50px;

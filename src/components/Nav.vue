@@ -12,7 +12,7 @@ Refer to bootstrap-vue documentation on nav components
         <b-nav-item-dropdown id="last-nav" text="Account" right>
           <b-dropdown-item to="/login" v-on:click="logout">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-button id="btn-new-session" to="/teacher/sessions/current_session">New Session</b-button>
+        <b-button id="btn-new-session" to="/teacher/sessions/new_session">New Session</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
