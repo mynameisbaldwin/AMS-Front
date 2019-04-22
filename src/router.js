@@ -12,7 +12,6 @@ import Classes from "./views/Teacher/Classes.vue";
 import EditClasses from "./views/Teacher/EditClasses.vue";
 import EditRoster from "./views/Teacher/EditRoster.vue";
 import PageNotFound from "./views/PageNotFound.vue";
-import HelloWorld from "./components/HelloWorld.vue";
 import Metrics from "./components/Metrics.vue";
 
 Vue.use(Router);
