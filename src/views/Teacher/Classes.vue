@@ -62,14 +62,17 @@ export default {
     }
   },
   mounted: function() {
-    // axios
-    //   .get(this.$api + "classes", this.userId, {
-    //     headers: {
-    //       Authorization: "Bearer " + localStorage.token
-    //     }
-    //   })
-    //   .then(res => (this.classes = res.data))
-    //   .catch(err => console.log(err));
+    axios
+      .get(this.$api + "classes", this.userId, {
+        params: {
+          userId: localStorage.userId
+        },
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(res => (this.classes = res.data))
+      .catch(err => console.log(err));
   }
 };
 </script>

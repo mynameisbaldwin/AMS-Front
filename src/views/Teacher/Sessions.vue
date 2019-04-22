@@ -66,7 +66,7 @@ export default {
     axios
       .get(this.$api + "sessions", {
         params: {
-          id: localStorage.userId
+          userId: localStorage.userId
         },
         headers: {
           Authorization: "Bearer " + localStorage.token

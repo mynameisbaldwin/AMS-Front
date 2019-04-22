@@ -6,6 +6,7 @@
 
 ```
 npm install vue
+npm install -g @vue/cli
 ```
 
 ### Install Packages
