@@ -21,6 +21,7 @@
 
 <script>
 import TeacherTitle from "../../components/TeacherTitle.vue";
+import axios from "axios";
 export default {
   name: "SessionNew",
   components: {
@@ -30,16 +31,41 @@ export default {
     return {
       show: false,
       selected: null,
-      options: [{ value: 1, text: "Class 1" }, { value: 2, text: "Class 2" }]
+      classes: [],
+      options: []
     };
   },
   methods: {
     selectClass() {
-      //send class id
-      this.$router.push("/teacher/sessions/current_session");
+      this.$router.push("/teacher/sessions/" + this.selected + "/current_session");
+    },
+    addOptions() {
+      for(var i = 0; i < this.classes.length; i++) {
+        const option = {
+          value: this.classes[i].id,
+          text: this.classes[i].courseName
+        }
+        this.options.push(option);
+      }
     }
+  },
+  created() {
+    let self = this;
+    axios
+      .get(this.$api + "classes", {
+        params: {
+          userId: localStorage.userId
+        },
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(function (response) {
+        self.classes = response.data;
+        self.addOptions();
+      })
+      .catch(err => console.log(err));
   }
-  //add axios get class info
 };
 </script>
 

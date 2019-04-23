@@ -1,6 +1,6 @@
 <template>
     <div id="session-view">
-        <TeacherTitle v-bind:title="session.class_name + ' - ' + session.date" />
+        <!-- <TeacherTitle v-bind:title="session.class_name + ' - ' + session.date" /> -->
         <div class="table-component">
             <h2 class="table-title">Roster</h2>
             <b-table :items="roster" :fields="fields" :tbody-tr-class="rowClass">
@@ -14,18 +14,27 @@
                     ></b-form-select>
                 </template>
             </b-table>
-            <b-link to="/teacher/sessions">Back to Sessions</b-link>
+            <div v-if="changeSession">
+                <b-link v-b-modal.backCheck>Back to Sessions</b-link>
+            </div>
+            <div v-else>
+                <b-link to="/teacher/sessions">Back to Sessions</b-link>
+            </div>
             <b-button class="btn-saves" variant="primary" v-on:click="saveChanges">Save Changes</b-button>
             <b-button class="btn-saves" variant="outline-secondary" v-on:click="cancelChanges">Cancel Changes</b-button>
         </div>
+        <b-modal centered hide-header id="backCheck" cancel-variant="outline-secondary" @ok="goBack">
+            Are you sure you want to exit? All unsaved progress will be lost.
+            <div slot="modal-ok">
+                Yes
+            </div>
+        </b-modal>
     </div>
 </template>
 
 <script>
 import TeacherTitle from "../../components/TeacherTitle.vue";
 import axios from "axios";
-import seshs from "../../assets/sessions.json";
-import roster from "../../assets/roster1.json";
 import bootbox from "bootbox";
 export default {
     name: "SessionView",
@@ -34,15 +43,11 @@ export default {
     },
     data() {
         return {
-            session: {
-                id: this.$route.params.sessionId, //grabs session id from route
-                class_name: null,
-                date: null
-            },
-            roster: null,
+            session: null,
+            roster: [],
             rosterBackup: null,
             change: false,
-            fields: ['last_name', 'first_name', 'status'],
+            fields: ['firstName', 'lastName', 'status'],
             presenceMarks: [
                 { value: null, text: "Change to..." },
                 { value: "Present", text: "Present" },
@@ -61,6 +66,9 @@ export default {
         },
         changeSession() {
             this.change = true;
+        },
+        goBack() {
+            this.$router.push('/teacher/sessions');
         },
         saveChanges() {
             if(this.change) 
@@ -113,13 +121,27 @@ export default {
             }
         }
     },
-    mounted:function() {
-        let s = seshs.filter(sesh => sesh.id == this.session.id);
-        this.session.class_name = s[0].class_name;
-        this.session.date = s[0].date;
-        this.roster = roster.filter(r => r.sessionID == this.session.id);
-        this.rosterBackup = [...this.roster];
-    }
+    created() {
+        let self = this;
+        axios
+        .get(this.$api + "sessions", {
+            params: {
+                userId: localStorage.userId
+            },
+            headers: {
+                Authorization: "Bearer " + localStorage.token
+            }
+        })
+        .then(function (response) {
+            let temp = [];
+            temp = response.data;
+            self.session = temp.filter(sesh => sesh.sessionId == self.$route.params.sessionId);
+            for(let i = 0; i < self.session[0].students.length; i++) {
+                self.roster.push(self.session[0].students[i]);
+            }
+        })
+        .catch(err => console.log(err));
+        }
 }
 </script>
 

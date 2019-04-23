@@ -15,7 +15,7 @@ import PageNotFound from "./views/PageNotFound.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
@@ -41,37 +41,44 @@ export default new Router({
         {
           path: "sessions",
           name: "sessions",
-          component: Sessions
+          component: Sessions,
+          meta: { teacherLogin: true }
         },
         {
           path: "sessions/new_session",
           name: "new_session",
-          component: SessionNew
+          component: SessionNew,
+          meta: { teacherLogin: true }
         },
         {
-          path: "sessions/current_session",
+          path: "sessions/:classId/current_session",
           name: "current_session",
-          component: SessionCurrent
+          component: SessionCurrent,
+          meta: { teacherLogin: true }
         },
         {
           path: "sessions/:sessionId",
           name: "view_session",
-          component: SessionView
+          component: SessionView,
+          meta: { teacherLogin: true }
         },
         {
           path: "classes",
           name: "classes",
-          component: Classes
+          component: Classes,
+          meta: { teacherLogin: true }
         },
         {
           path: "classes/edit_classes",
           name: "edit_classes",
-          component: EditClasses
+          component: EditClasses,
+          meta: { teacherLogin: true }
         },
         {
           path: "classes/edit_roster/:classId",
           name: "edit_roster",
-          component: EditRoster
+          component: EditRoster,
+          meta: { teacherLogin: true }
         }
       ]
     },
@@ -83,4 +90,18 @@ export default new Router({
   ]
 });
 
-//router.beforeEach() for authorization
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.teacherLogin)) {
+    if(localStorage.token) {
+      next();
+    }
+    else {
+      router.replace("/login");
+    }
+  }
+  else {
+    next();
+  }
+});
+
+export default router;

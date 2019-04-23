@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <Nav v-if="teacherLogin"/>
-    <NavHome v-if="!teacherLogin"/>
+    <div v-if="tokenExist == true">
+      <Nav />
+    </div>
+    <div v-else>
+      <NavHome />
+    </div>
     <router-view/>
   </div>
 </template>
@@ -18,8 +22,12 @@ export default {
   },
   data() {
     return {
-      teacherLogin: false
-    };
+      tokenExist: false
+    }
+  },
+  created() {
+      if(localStorage.token) this.tokenExist = true;
+      else this.tokenExist = false;
   }
 };
 </script>

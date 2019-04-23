@@ -3,7 +3,7 @@
   <!-- Refer to bootstrap-vue documentation for info on how the tables work -->
   <div id="currentSession">
     <TeacherTitle title="Current Session"/>
-    <h2 class="session-datetime">March 30th, 9:30 - 10:30am</h2>
+    <h2 class="session-datetime">((Local Datetime))</h2>
     <div id="attendance-wrapper">
       <div class="table-session" id="unaccounted">
         <h3 class="table-title">Unnaccounted Students ({{ unaccounted.length }})</h3>
@@ -14,7 +14,7 @@
             <button
               class="btn-mark-presence btn-tardy"
               @click="markPresence(
-                  data.item.studentId,
+                  data.item.id,
                   data.item.firstName,
                   data.item.lastName,
                   'Tardy', 
@@ -23,7 +23,7 @@
             <button
               class="btn-mark-presence btn-absent"
               @click="markPresence(
-                  data.item.studentId,
+                  data.item.id,
                   data.item.firstName,
                   data.item.lastName,
                   'Absent',  
@@ -32,7 +32,7 @@
             <button
               class="btn-mark-presence btn-present"
               @click="markPresence(
-                  data.item.studentId,
+                  data.item.id,
                   data.item.firstName,
                   data.item.lastName,
                   'Present', 
@@ -127,7 +127,7 @@ export default {
       unaccounted: [], //objects of unaccounted students
       accounted: [],
       savedSession: {
-        ClassId: 1,
+        ClassId: null,
         Students: []
       },
       presenceMarks: [
@@ -142,7 +142,7 @@ export default {
     markPresence(id, first, last, presence, status) {
       //deletes row from unaccounted table and adds object to accounted table
       this.unaccounted = this.unaccounted.filter(
-        unaccounted => unaccounted.studentId != id
+        student => student.id != id
       );
       const newMarkedStudent = {
         studentId: id,
@@ -161,6 +161,7 @@ export default {
       else this.saveSession();
     },
     saveSession() {
+      this.savedSession.ClassId = this.$route.params.classId;
       for (var i = 0; i < this.accounted.length; i++) {
         const newStudent = {
           studentId: this.accounted[i].studentId,
@@ -169,7 +170,7 @@ export default {
         this.savedSession.Students.push(newStudent);
       }
       axios
-        .post(this.$api + "classes/1/sessions", this.savedSession, {
+        .post(this.$api + "classes/" + this.$route.params.classId + "/sessions", this.savedSession, {
           headers: {
             Authorization: "Bearer " + localStorage.token
           }
@@ -189,7 +190,7 @@ export default {
   created() {
     //adds data to unaccounted table from outside source
     axios
-      .get(this.$api + "classes/1/students", {
+      .get(this.$api + "classes/" + this.$route.params.classId + "/students", {
         params: {
           id: localStorage.userId
         },

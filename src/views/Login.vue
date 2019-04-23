@@ -62,7 +62,7 @@ export default {
       }
       localStorage.token = res.data.token;
       localStorage.userId = res.data.id;
-      this.$parent.teacherLogin = true;
+      this.$parent.tokenExist = true;
       this.$router.push("/teacher/sessions");
     },
     loginFail() {

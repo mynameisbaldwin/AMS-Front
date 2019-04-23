@@ -9,15 +9,33 @@
       >+ Create New Class</b-btn>
     </div>
 
-    <div class="classForms" id="editClass" v-if="toggleForm == false" @submit="onSubmit">
-      <b-form-select v-model="selectedClass" :options="classNames" @change="onChange">
+    <div class="classForms" id="editClass" v-if="toggleForm == false">
+      <b-form-select v-model="selectedClass" :options="classNames" @change="changeClass">
         <template slot="first">
           <option :value="null" disabled>Choose a class to edit...</option>
         </template>
       </b-form-select>
       <b-form id="form-edit">
         <b-form-group id="className" label="Class Name" label-for="classNameIn">
-          <b-form-input id="classNameIn" v-model="form.className" placeholder="Class Name" required></b-form-input>
+          <b-form-input id="classNameIn" v-model="form.courseName" placeholder="Class Name" required></b-form-input>
+        </b-form-group>
+         <b-form-group class="times" id="startDate" label="Start Date" label-for="startDateIn">
+          <b-form-input
+            id="startDateIn"
+            v-model="form.startDate"
+            placeholder="Start Date"
+            type="date"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group class="times endTime" label="End Date" label-for="endDateeIn">
+          <b-form-input
+            id="endDateIn"
+            v-model="form.endDate"
+            placeholder="End Date"
+            type="date"
+            required
+          ></b-form-input>
         </b-form-group>
         <b-form-group class="times" id="startTime" label="Start Time" label-for="startTimeIn">
           <b-form-input
@@ -39,24 +57,42 @@
         </b-form-group>
         <b-form-checkbox-group
           id="weekdays"
-          v-model="form.weekdays"
+          v-model="form.weekDays"
           :options="weekdays"
           name="weekdays"
         ></b-form-checkbox-group>
         <b-form-invalid-feedback :state="formEditWeekDay">Please select one weekday</b-form-invalid-feedback>
         <div class="btn-form" v-if="showSubmit">
-          <b-button variant="primary" type="submit" style="float:right;">Save Changes</b-button>
+          <b-button v-b-modal.submitCheck variant="primary" type="submit" style="float:right;">Save Changes</b-button>
         </div>
       </b-form>
     </div>
 
-    <div class="classForms" id="createClass" v-if="toggleForm == true">
+    <div class="classForms" id="createClass" @submit="createClass" v-if="toggleForm == true">
       <b-form id="form-create">
         <b-form-group id="className" label="Class Name" label-for="classNameIn">
           <b-form-input
             id="classNameIn"
             v-model="newClass.courseName"
             placeholder="Class Name"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group class="times" id="startDate" label="Start Date" label-for="startDateIn">
+          <b-form-input
+            id="startDateIn"
+            v-model="newClass.startDate"
+            placeholder="Start Date"
+            type="date"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group class="times endTime" label="End Date" label-for="endDateeIn">
+          <b-form-input
+            id="endDateIn"
+            v-model="newClass.endDate"
+            placeholder="End Date"
+            type="date"
             required
           ></b-form-input>
         </b-form-group>
@@ -80,7 +116,7 @@
         </b-form-group>
         <b-form-checkbox-group
           id="weekdays"
-          v-model="newClass.weekdays"
+          v-model="newClass.weekDays"
           :options="weekdays"
           name="weekdays"
         ></b-form-checkbox-group>
@@ -91,7 +127,7 @@
             style="float:left;"
             @click="toggleForm = !toggleForm"
           >Cancel</b-button>
-          <b-button variant="primary" style="float:right;">Submit</b-button>
+          <b-button type="submit" variant="primary" style="float:right;">Submit</b-button>
         </div>
       </b-form>
     </div>
@@ -141,17 +177,21 @@ export default {
       showSubmit: false, //flag to show submit btn on edit page
       form: {
         id: null,
-        className: "",
+        courseName: "",
+        startDate: null,
+        endDate: null,
         startTime: null,
         endTime: null,
-        weekdays: []
+        weekDays: []
       },
       newClass: {
+        id: null,
         courseName: null,
+        startDate: null,
+        endDate: null,
         startTime: null,
         endTime: null,
-        weekdays: [],
-        students: []
+        weekDays: []
       },
       weekdays: [
         { value: "M", text: "Monday" },
@@ -164,48 +204,87 @@ export default {
     };
   },
   methods: {
-    onChange() {
+    changeClass() {
       var current = this.selectedClass;
       this.form.id = current.id;
-      this.form.className = current.name;
-      this.form.startTime = current.start_time;
-      this.form.endTime = current.end_time;
-      this.form.weekdays = [];
-      for (var i = 0; i < current.weekdays.length; i++) {
-        this.form.weekdays = [...this.form.weekdays, current.weekdays[i]];
+      this.form.courseName = current.courseName;
+      this.form.startDate = this.formatDate(current.startDate);
+      this.form.endDate = this.formatDate(current.endDate);
+      this.form.startTime = current.startTime;
+      this.form.endTime = current.endTime;
+      this.form.weekDays = [];
+      for(let i = 0; i < current.weekDays.length; i++) {
+        this.form.weekDays.push(current.weekDays[i]);
       }
       this.showSubmit = true;
     },
+    formatDate(date) {
+      let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    },
+     addClassOption() {
+      for (let i = 0; i < this.classes.length; i++) {
+        const classOption = {
+          value: this.classes[i],
+          text:
+            this.classes[i].courseName +
+            " (" +
+            this.classes[i].startTime +
+            " - " +
+            this.classes[i].endTime +
+            ")"
+        };
+        this.classNames = [...this.classNames, classOption];
+      }
+    },
     onSubmit() {
       //post data
-      // this.$router.push("/teacher/classes");
+      let self = this;
+      axios
+        .put(this.$api + "classes", self.form, {
+          headers: {
+            Authorization: "Bearer " + localStorage.token
+          }
+        })
+        .then(res => (console.log(res)))
+        .err(err => (console.log(err)));
+    },
+    createClass() {
+      //create data
+      //this.$router.push("/teacher/classes")
     }
   },
   computed: {
     formEditWeekDay() {
-      return this.form.weekdays.length > 0;
+      return this.form.weekDays.length > 0;
     },
     formCreateWeekDay() {
-      return this.newClass.weekdays.length > 0;
+      return this.newClass.weekDays.length > 0;
     }
   },
-  mounted: function() {
-    this.classes = Classes;
-    var i = this.classes.length;
-    for (var j = 0; j < i; j++) {
-      const classOption = {
-        value: this.classes[j],
-        text:
-          this.classes[j].name +
-          " (" +
-          this.classes[j].weekdays +
-          ") " +
-          this.classes[j].start_time +
-          " - " +
-          this.classes[j].end_time
-      };
-      this.classNames = [...this.classNames, classOption];
-    }
+ created() {
+    let self = this;
+    axios
+      .get(this.$api + "classes", {
+        params: {
+          userId: localStorage.userId
+        },
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(function (response) {
+        self.classes = response.data;
+        self.addClassOption();
+      })
+      .catch(err => console.log(err));
   }
 };
 </script>

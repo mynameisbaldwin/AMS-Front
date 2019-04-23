@@ -10,6 +10,8 @@ Refer to bootstrap-vue documentation on nav components
     <b-collapse is-nav id="nav-collapse">
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown id="last-nav" text="Account" right>
+          <b-dropdown-item to="/teacher/sessions">Sessions</b-dropdown-item>
+          <b-dropdown-item to="/teacher/classes">Classes</b-dropdown-item>
           <b-dropdown-item to="/login" v-on:click="logout">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-button id="btn-new-session" to="/teacher/sessions/new_session">New Session</b-button>
@@ -24,9 +26,9 @@ export default {
   name: "Nav",
   methods: {
     logout() {
-      this.$parent.teacherLogin = false;
       delete localStorage.token;
       delete localStorage.userId;
+      this.$parent.tokenExist = false;
     }
   }
 };

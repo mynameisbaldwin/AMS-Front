@@ -16,8 +16,8 @@
         <b-link to="/teacher/classes/edit_classes">Edit Classes...</b-link>
       </div>
       <div id="roster">
-        <b-table fixed id="table-roster" :items="rosterItems" :fields="rosterFields"></b-table>
-        <b-link v-on:click="editRoster(123)">Edit Roster...</b-link>
+        <b-table fixed id="table-roster" striped :items="roster" :fields="rosterFields"></b-table>
+        <b-link v-if="classId != null" v-on:click="editRoster">Edit Roster...</b-link>
         <!-- replace '123' with class ID -->
       </div>
     </div>
@@ -36,34 +36,34 @@ export default {
     return {
       title: "Classes",
       userId: { id: localStorage.userId },
+      classId: null,
       classes: [],
       roster: [],
-      rosterItems: null,
       fields: ["courseName", "startTime", "endTime"],
-      rosterFields: ["lastName", "firstName"],
+      rosterFields: ["firstName", "lastName"],
       selectMode: "single",
       selected: []
     };
   },
   methods: {
-    rowSelect(item) {
-      var classId = item[0].id;
-      // axios
-      //   .get(this.$api + "classes/" + classId + "/students", {
-      //     headers: {
-      //       Authorization: "Bearer " + localStorage.token
-      //     }
-      //   })
-      //   .then(res => (this.roster = res.data))
-      //   .catch(err => console.log(err));
+    rowSelect(items) {
+      this.classId = items[0].id;
+      axios
+        .get(this.$api + "classes/" + this.classId + "/students", {
+          headers: {
+            Authorization: "Bearer " + localStorage.token
+          }
+        })
+        .then(res => (this.roster = res.data))
+        .catch(err => console.log(err));
     },
-    editRoster(id) {
-      this.$router.push({ name: "edit_roster", params: { classId: id } });
+    editRoster() {
+      this.$router.push({ name: "edit_roster", params: { classId: this.classId } });
     }
   },
-  mounted: function() {
+  created() {
     axios
-      .get(this.$api + "classes", this.userId, {
+      .get(this.$api + "classes", {
         params: {
           userId: localStorage.userId
         },
