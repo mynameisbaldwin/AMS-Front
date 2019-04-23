@@ -13,6 +13,7 @@ import Classes from "./views/Teacher/Classes.vue";
 import EditClasses from "./views/Teacher/EditClasses.vue";
 import EditRoster from "./views/Teacher/EditRoster.vue";
 import PageNotFound from "./views/PageNotFound.vue";
+import Metrics from "./components/Metrics.vue";
 
 Vue.use(Router);
 
@@ -29,7 +30,7 @@ const router = new Router({
       component: SignUp
     },
     {
-      path:"/signup_success",
+      path: "/signup_success",
       name: "signup_success",
       component: SignUpSuccess,
       meta: { signUpSuccess: true }
@@ -88,9 +89,10 @@ const router = new Router({
           meta: { teacherLogin: true }
         },
         {
-          path:"metrics",
+          path: "metrics",
           name: "metrics",
-          meta: { teacherLogin: true}
+          component: Metrics,
+          meta: { teacherLogin: true }
         }
       ]
     },
@@ -103,23 +105,19 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.teacherLogin)) {
-    if(localStorage.token) {
+  if (to.matched.some(record => record.meta.teacherLogin)) {
+    if (localStorage.token) {
       next();
-    }
-    else {
+    } else {
       router.replace("/login");
     }
-  }
-  else if(to.matched.some(record => record.meta.signUpSuccess)) {
-    if(localStorage.signUp) {
+  } else if (to.matched.some(record => record.meta.signUpSuccess)) {
+    if (localStorage.signUp) {
       next();
-    }
-    else {
+    } else {
       router.replace("/signup");
     }
-  }
-  else {
+  } else {
     next();
   }
 });
