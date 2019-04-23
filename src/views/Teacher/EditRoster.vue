@@ -55,7 +55,16 @@ export default {
   data() {
     return {
       roster: [],
-      fields: ["firstName", "lastName"],
+      fields: {
+        firstName: {
+          label: "First Name",
+          sortable: true
+        },
+        lastName: {
+          label: "Last Name",
+          sortable: true
+        }
+      },
       class: [],
       classInfo: {
         id: null,
@@ -126,20 +135,6 @@ export default {
       })
       .then(res => (this.roster = res.data))
       .catch(err => console.log(err));
-    
-    // axios
-    //   .get(this.$api + "classes/" + this.$route.params.classId, {
-    //     headers: {
-    //       Authorization: "Bearer " + localStorage.token
-    //     }
-    //   })
-    //   .then(res => (this.class = res.data))
-    //   .catch(err => console.log(err));
-    //   console.log(this.class);
-    //   this.classInfo.id = this.class[0].id;
-    //   this.classInfo.name = this.class[0].courseName;
-    //   this.classInfo.startTime = this.class[0].startTime;
-    //   this.classInfo.endTime = this.class[0].endTime;
   }
 };
 </script>

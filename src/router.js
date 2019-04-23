@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import SignUp from "./views/SignUp.vue";
+import SignUpSuccess from "./views/SignUpSuccess.vue";
 import Login from "./views/Login.vue";
 import Teacher from "./components/Teacher.vue";
 import Sessions from "./views/Teacher/Sessions.vue";
@@ -26,6 +27,12 @@ const router = new Router({
       path: "/signup",
       name: "signup",
       component: SignUp
+    },
+    {
+      path:"/signup_success",
+      name: "signup_success",
+      component: SignUpSuccess,
+      meta: { signUpSuccess: true }
     },
     {
       path: "/login",
@@ -79,6 +86,11 @@ const router = new Router({
           name: "edit_roster",
           component: EditRoster,
           meta: { teacherLogin: true }
+        },
+        {
+          path:"metrics",
+          name: "metrics",
+          meta: { teacherLogin: true}
         }
       ]
     },
@@ -97,6 +109,14 @@ router.beforeEach((to, from, next) => {
     }
     else {
       router.replace("/login");
+    }
+  }
+  else if(to.matched.some(record => record.meta.signUpSuccess)) {
+    if(localStorage.signUp) {
+      next();
+    }
+    else {
+      router.replace("/signup");
     }
   }
   else {

@@ -18,5 +18,7 @@ export default {
 </script>
 
 <style>
-
+#teacher-view {
+    margin-bottom: 40px;
+}
 </style>

@@ -2,7 +2,7 @@
   <div id="newSession">
     <TeacherTitle title="New Session"/>
     <div id="selectClass">
-      <b-form @submit="selectClass">
+      <b-form>
         <b-form-group id="chooseClass" label="Choose a class" label-for="classSelect">
           <b-form-select v-model="selected" @change="show = true" :options="options">
             <template slot="first">
@@ -10,9 +10,9 @@
             </template>
           </b-form-select>
         </b-form-group>
-        <b-button variant="outline-secondary" style="float:left;">Go back</b-button>
+        <b-button variant="outline-secondary" style="float:left;" @click="$router.go(-1)">Go back</b-button>
         <div v-if="show">
-          <b-button type="submit" variant="primary" style="float:right;">Next</b-button>
+          <b-button @click="selectClass" variant="primary" style="float:right;">Next</b-button>
         </div>
       </b-form>
     </div>
@@ -43,10 +43,42 @@ export default {
       for(var i = 0; i < this.classes.length; i++) {
         const option = {
           value: this.classes[i].id,
-          text: this.classes[i].courseName
+          text: this.formatName(i)
         }
         this.options.push(option);
       }
+    },
+    formatName(index) {
+      let course = this.classes[index];
+      let days = course.weekDays.join('');
+      let start = course.startTime;
+      let end = course.endTime;
+      start = start.split(':');
+      end = end.split(':');
+
+      let stHour = Number(start[0]);
+      let stMinute = start[1];
+      let endHour = Number(end[0]);
+      let endMinute = end[1];
+      let startAMPM = "AM";
+      let endAMPM = "AM";
+
+      if(stHour > 12) {
+        stHour -= 12;
+        startAMPM = "PM";
+      }
+      else if(stHour == 12) startAMPM = "PM";
+
+      if(endHour > 12) {
+        endHour -= 12;
+        endAMPM = "PM";
+      }
+      else if(stHour == 12) startAMPM = "PM";
+      
+      let newStart = stHour + ':' + stMinute + startAMPM;
+      let newEnd = endHour + ':' + endMinute + endAMPM;
+      
+      return course.courseName + " (" + days + ") " + newStart + " - " + newEnd;
     }
   },
   created() {

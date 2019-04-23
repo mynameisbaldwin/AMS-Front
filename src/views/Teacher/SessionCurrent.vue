@@ -3,7 +3,10 @@
   <!-- Refer to bootstrap-vue documentation for info on how the tables work -->
   <div id="currentSession">
     <TeacherTitle title="Current Session"/>
-    <h2 class="session-datetime">((Local Datetime))</h2>
+    <div class="session-datetime">
+      <h2>{{course}}</h2>
+      <h3>{{currentDate}} {{currentTime}}</h3>
+    </div>
     <div id="attendance-wrapper">
       <div class="table-session" id="unaccounted">
         <h3 class="table-title">Unnaccounted Students ({{ unaccounted.length }})</h3>
@@ -66,13 +69,14 @@
           style="margin-right: 20px;"
           v-b-modal.cancel
         >Cancel Session</b-button>
-        <b-button variant="primary" v-b-modal.save>Save Session</b-button>
+        <b-button variant="primary" @click="checkSession">Save Session</b-button>
       </div>
     </div>
 
     <!-- Modals -->
     <b-modal
       id="cancel"
+      ref="cancel"
       centered
       title="Cancel Session"
       cancel-variant="outline-secondary"
@@ -85,12 +89,13 @@
     </b-modal>
     <b-modal
       id="save"
+      ref="save"
       centered
       title="Save Session"
       cancel-variant="outline-secondary"
-      @ok="checkSession"
-    >Are you sure you want to save session for CLASSNAME?</b-modal>
-    <b-modal id="unfinished" centered v-model="unfinishedSesh" @ok="saveSession">
+      @ok="saveSession"
+    >Are you sure you want to save session for {{course}}?</b-modal>
+    <b-modal id="unfinished" ref="unfinished" centered v-model="unfinishedSesh" @ok="saveSession">
       There are still students who haven't been marked.
       Do you still want to save the session?
       Unmarked students will not be saved.
@@ -102,6 +107,7 @@
 import TeacherTitle from "../../components/TeacherTitle.vue";
 import axios from "axios";
 import bootbox from "bootbox";
+import { setTimeout } from 'timers';
 export default {
   name: "SessionCurrent",
   components: {
@@ -126,6 +132,11 @@ export default {
       filter: null,
       unaccounted: [], //objects of unaccounted students
       accounted: [],
+      classes: [],
+      currentDate: null,
+      currentTime: null,
+      course: null,
+      reqSave: false,
       savedSession: {
         ClassId: null,
         Students: []
@@ -153,12 +164,15 @@ export default {
       };
       this.accounted.push(newMarkedStudent);
     },
-    cancelSession(evt) {
-      this.$router.push("/teacher/sessions");
+    cancelSession() {
+      let self=this;
+      setTimeout(function() {
+        self.$router.push("/teacher/sessions");
+      }, 500);
     },
     checkSession() {
-      if (this.unaccounted.length > 0) this.unfinishedSesh = true;
-      else this.saveSession();
+      if (this.unaccounted.length > 0) this.showUnfinsishedModal();
+      else this.showSaveModal();
     },
     saveSession() {
       this.savedSession.ClassId = this.$route.params.classId;
@@ -175,9 +189,13 @@ export default {
             Authorization: "Bearer " + localStorage.token
           }
         })
-        .then(res => console.log(res))
         .catch(err => console.log(err));
-      this.$router.push("/teacher/sessions");
+
+        let self = this;
+        setTimeout(function() {
+          self.$router.push("/teacher/sessions");
+        }, 500);
+        
     },
     rowClass(item) {
       //method responsible for changing row colors
@@ -185,6 +203,35 @@ export default {
       if (item.statusId == 1) return "table-success";
       if (item.statusId == 2) return "table-danger";
       if (item.statusId == 3) return "table-warning";
+    },
+    formatDate(date) {
+      this.currentDate = (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear();
+    },
+    formatTime(date) {
+      let hour = date.getHours();
+      let minute = date.getMinutes();
+      let minuteDisp = minute;
+      let ampm = "AM";
+      if(hour > 12) {
+        hour -= 12;
+        ampm = "PM";
+      }
+      else if(hour == 12) ampm = "PM"
+
+      if(Number(minute) < 10) minuteDisp = "0" + minute;
+      this.currentTime = hour + ':' + minuteDisp + ' ' + ampm;
+    },
+    showCancelModal() {
+      this.$refs.cancel.show();
+    },
+    showSaveModal() {
+      this.$refs.save.show();
+    },
+    showUnfinsishedModal() {
+      this.$refs.unfinished.show();
+    },
+    handleSave(bvEvt) {
+      console.log(bvEvt);
     }
   },
   created() {
@@ -200,6 +247,27 @@ export default {
       })
       .then(res => (this.unaccounted = res.data))
       .catch(err => console.log(err));
+    
+    let self = this;
+    axios
+      .get(this.$api + "classes", {
+        params: {
+          userId: localStorage.userId
+        },
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(function (response) {
+        self.classes = response.data;
+        self.classes = self.classes.filter(course => course.id == self.$route.params.classId);
+        self.course = self.classes[0].courseName;
+      })
+      .catch(err => console.log(err));
+    
+    let date = new Date();
+    this.formatDate(date);
+    this.formatTime(date);
   }
 };
 </script>

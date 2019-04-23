@@ -6,6 +6,7 @@
     <b-row align-v="center" align-h="center">
       <div class="login-module">
         <h2 class="form-title">Sign Up</h2>
+        <b-form-invalid-feedback :state="checkSignUp">Passwords do not match.</b-form-invalid-feedback>
         <b-form @submit="onSubmit">
           <b-form-group id="firstName" label="First Name" label-for="firstNameIn">
             <b-form-input
@@ -86,6 +87,7 @@ export default {
         UserLevelId: 1
       },
       passwordConfirm: "",
+      checkSignUp: true,
       //options for user level
       userLevelOptions: [
         { text: "Teacher", value: 1 },
@@ -97,6 +99,7 @@ export default {
     //fires when submit button is clicked
     onSubmit(evt) {
       evt.preventDefault();
+      localStorage.signUp = true;
       //check if both password fields match
       if (this.form.Password == this.passwordConfirm) {
         axios
@@ -107,9 +110,9 @@ export default {
           .catch(function(err) {
             console.log(err);
           });
-          this.$router.push("/teacher/sessions");
+          this.$router.push("/signup_success");
       } else {
-        alert("Passwords do not match.");
+        this.checkSignUp = false;
       }
     }
   }

@@ -11,12 +11,34 @@
       <h2 class="home-row-head">Attendance Made Easy</h2>
       <!-- Temporary boxes for listing app benefits -->
       <div class="home-benefits">
-        <div class="home-benefits-item"></div>
-        <div class="home-benefits-item"></div>
-        <div class="home-benefits-item"></div>
+        <div class="home-benefits-item">
+          <div class="home-benefits-image">
+            <img class="img-benefits" src="../assets/studentLogo.png">
+            <p class="benefits-text">
+              <strong>Safety Net</strong> allows teachers to easily track student attendance. 
+              Create a session for every class and <strong>quickly mark</strong> every student in the class roster.
+            </p>
+          </div>
+        </div>
+        <div class="home-benefits-item">
+          <div class="home-benefits-image">
+            <img class="img-benefits" src="../assets/verified.png">
+            <p class="benefits-text">
+              Teachers can <strong>easily manage</strong> classes, sessions, and rosters.
+              <strong>Safety Net</strong> makes it easy for you to create, delete, or update your attendance data.
+            </p>
+          </div>
+        </div>
+        <div class="home-benefits-item">
+          <img class="img-benefits" src="../assets/presentation.png">
+          <p class="benefits-text">
+              Want to know who comes to class? Check out <strong>metric graphs</strong> of your data to quickly assess overall attendance.
+            </p>
+        </div>
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -99,10 +121,24 @@ export default {
 }
 
 .home-benefits-item {
-  background-color: #d8d8d8;
-  width: 256px;
+  width: 275px;
   height: 300px;
-  margin-right: 40px;
+  margin-right: 60px;
+}
+
+.img-benefits {
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.benefits-text {
+  margin-top: 30px;
+  text-align: center;
+  font-family: 'Roboto', 'sans-serif';
+  font-size: 14pt;
 }
 </style>
 

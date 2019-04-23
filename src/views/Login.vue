@@ -6,6 +6,7 @@
     <b-row align-v="center" align-h="center">
       <div class="login-module">
         <h2 class="form-title">Log In</h2>
+        <b-form-invalid-feedback :state="checkLogin">Invalid username or password.</b-form-invalid-feedback>
         <b-form @submit="onSubmit">
           <b-form-group id="username" label="Username" label-for="usernameIn">
             <b-form-input id="usernameIn" v-model="form.username" placeholder="Username" required></b-form-input>
@@ -43,7 +44,8 @@ export default {
       form: {
         username: "",
         password: ""
-      }
+      },
+      checkLogin: true
     };
   },
   methods: {
@@ -66,6 +68,7 @@ export default {
       this.$router.push("/teacher/sessions");
     },
     loginFail() {
+      this.checkLogin = false;
       console.log("Login failed.");
       delete localStorage.token;
     }
