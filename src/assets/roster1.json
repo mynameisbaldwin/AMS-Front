@@ -1,0 +1,44 @@
+[
+    {
+        "sessionID": 5047,
+        "className": "Math",
+        "first_name": "Charles",
+        "last_name": "Smith",
+        "status": "Present"
+    },
+    {
+        "sessionID": 5047,
+        "className": "Math",
+        "first_name": "Conswela",
+        "last_name": "Apple",
+        "status": "Present"
+    },
+    {
+        "sessionID": 5047,
+        "className": "Math",
+        "first_name": "Logan",
+        "last_name": "Digital",
+        "status": "Absent"
+    },
+    {
+        "sessionID": 5047,
+        "className": "Math",
+        "first_name": "Bob",
+        "last_name": "Ross",
+        "status": "Tardy"
+    },
+    {
+        "sessionID": 5047,
+        "className": "Math",
+        "first_name": "Uzi",
+        "last_name": "Vert",
+        "status": "Present"
+    },
+    {
+        "sessionID": 5048,
+        "className": "Math",
+        "first_name": "Outlier",
+        "last_name": "Outlier",
+        "status": "Present"
+    }
+]

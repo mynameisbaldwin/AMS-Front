@@ -1,0 +1,42 @@
+[
+  {
+    "id": 5044,
+    "date": "3-13-19",
+    "class_name": "Science",
+    "presents": 20,
+    "absents": 2,
+    "tardies": 1
+  },
+  {
+    "id": 5048,
+    "date": "3-13-19",
+    "class_name": "Math",
+    "presents": 21,
+    "absents": 1,
+    "tardies": 2
+  },
+  {
+    "id": 5046,
+    "date": "3-12-19",
+    "class_name": "Science",
+    "presents": 21,
+    "absents": 1,
+    "tardies": 1
+  },
+  {
+    "id": 5047,
+    "date": "3-14-19",
+    "class_name": "Math",
+    "presents": 23,
+    "absents": 0,
+    "tardies": 0
+  },
+  {
+    "id": 5045,
+    "date": "3-12-19",
+    "class_name": "Math",
+    "presents": 20,
+    "absents": 4,
+    "tardies": 0
+  }
+]
