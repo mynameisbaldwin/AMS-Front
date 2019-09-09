@@ -1,0 +1,287 @@
+[
+    {
+        "classId": 20,
+        "className": "Composition 1",
+        "data":[
+            {
+                "date": "01-11-2019",
+                "present": 19,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-12-2019",
+                "present": 18,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-13-2019",
+                "present": 24,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-14-2019",
+                "present": 29,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-15-2019",
+                "present": 32,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-16-2019",
+                "present": 14,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-17-2019",
+                "present": 10,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-18-2019",
+                "present": 18,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-19-2019",
+                "present": 22,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-20-2019",
+                "present": 24,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-21-2019",
+                "present": 13,
+                "absent": 10,
+                "tardy": 5
+            }]
+    },
+    {
+        "classId": 24,
+        "className": "Calculus 2",
+        "data":[
+            {
+                "date": "01-11-2019",
+                "present": 22,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-12-2019",
+                "present": 10,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-13-2019",
+                "present": 12,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-14-2019",
+                "present": 15,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-15-2019",
+                "present": 17,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-16-2019",
+                "present": 32,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-17-2019",
+                "present": 22,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-18-2019",
+                "present": 22,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-19-2019",
+                "present": 3,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-20-2019",
+                "present": 14,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-21-2019",
+                "present": 40,
+                "absent": 10,
+                "tardy": 5
+            }]
+    },
+    {
+        "classId": 28,
+        "className": "Spanish 2",
+        "data":[
+            {
+                "date": "01-11-2019",
+                "present": 28,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-12-2019",
+                "present": 15,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-13-2019",
+                "present": 19,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-14-2019",
+                "present": 12,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-15-2019",
+                "present": 11,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-16-2019",
+                "present": 28,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-17-2019",
+                "present": 24,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-18-2019",
+                "present": 20,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-19-2019",
+                "present": 10,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-20-2019",
+                "present": 11,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-21-2019",
+                "present": 30,
+                "absent": 10,
+                "tardy": 5
+            }]
+    },
+    {
+        "classId": 24,
+        "className": "University Physics",
+        "data":[
+            {
+                "date": "01-11-2019",
+                "present": 26,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-12-2019",
+                "present": 12,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-13-2019",
+                "present": 16,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-14-2019",
+                "present": 14,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-15-2019",
+                "present": 13,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-16-2019",
+                "present": 20,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-17-2019",
+                "present": 18,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-18-2019",
+                "present": 14,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-19-2019",
+                "present": 6,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-20-2019",
+                "present": 10,
+                "absent": 10,
+                "tardy": 5
+            },
+            {
+                "date": "01-21-2019",
+                "present": 30,
+                "absent": 10,
+                "tardy": 5
+            }]
+    }
+        
+]
