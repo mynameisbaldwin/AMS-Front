@@ -9,15 +9,10 @@ npm install vue
 npm install -g @vue/cli
 ```
 
-### Install Packages
-
-```
-npm --save install axios bootstrap bootstrap-vue bootbox jquery popper.js
-```
-
 ### Run Server
 
 ```
+npm run serve
 vue ui
 ```
 
