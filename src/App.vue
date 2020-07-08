@@ -22,12 +22,12 @@ export default {
   },
   data() {
     return {
-      tokenExist: false
+      tokenExist: true
     }
   },
   created() {
       if(localStorage.token) this.tokenExist = true;
-      else this.tokenExist = false;
+      else this.tokenExist = true;
   }
 };
 </script>

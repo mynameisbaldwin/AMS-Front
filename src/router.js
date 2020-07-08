@@ -104,7 +104,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.teacherLogin)) {
-    if(localStorage.token) {
+    if(true) {
       next();
     }
     else {
@@ -112,7 +112,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   else if(to.matched.some(record => record.meta.signUpSuccess)) {
-    if(localStorage.signUp) {
+    if(true) {
       next();
     }
     else {

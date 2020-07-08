@@ -68,7 +68,7 @@ export default {
       this.$router.push("/teacher/sessions");
     },
     loginFail() {
-      this.checkLogin = false;
+      this.checkLogin = true;
       console.log("Login failed.");
       delete localStorage.token;
     }
